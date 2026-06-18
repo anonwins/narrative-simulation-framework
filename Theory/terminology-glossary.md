@@ -1,0 +1,320 @@
+# NSF Terminology Glossary
+
+**Single source of truth** for the Narrative Simulation Framework (NSF).
+
+- Specs link here — do not redefine terms inline.
+- Framework examples use **abstract placeholder IDs** (§ Content IDs).
+- Setting-specific names belong in content packs or [`appendix-detective-noir-mapping.md`](appendix-detective-noir-mapping.md).
+
+---
+
+## SSOT rules
+
+1. **Define once** in this glossary.
+2. **Three layers** for every concept: Module → Prose → API (C#) → Content ID.
+3. **Legacy names** only in § Migration map and the appendix.
+4. New terms require a glossary entry before use in specs.
+5. Deprecate `*System` suffix in new API names; prefer `*Service`, `*Engine`, `*Registry`.
+
+---
+
+## Module taxonomy
+
+| Module | Prefix | Responsibility |
+|---|---|---|
+| **Runtime** | `runtime-` | Kernel, tick loop, simulation coordination |
+| **Cognition** | `cognition-` | Player mind: faculties, beliefs, conduct, emotion, rolls |
+| **Social** | `social-` | Relationships, factions, companions, ideology |
+| **Simulation** | `sim-` | World model: actors, time, locations, events, facts, economy, persistence |
+| **Story** | `story-` | Dialogue, voice, story state/flags, pacing, outcomes, fail-forward |
+| **Ledger** | `ledger-` | Chronicle (player record) + Thread (structured inquiry) |
+| **Rules** | `rules-` | Rule engine, gates |
+| **Content** | `content-` | Store, script DSL, pipeline, locale, inventory |
+| **Presentation** | `present-` | UI, audio, exploration, interaction, discovery |
+
+### Module index (spec → primary service)
+
+| Module | Spec | Primary API |
+|---|---|---|
+| Runtime | `runtime-kernel.md` | `ISimulationKernel` |
+| Cognition | `cognition-faculty.md` | `IFacultyService` |
+| Cognition | `cognition-belief.md` | `IBeliefService` |
+| Cognition | `cognition-conduct.md` | `IConductService` |
+| Cognition | `cognition-emotion.md` | `IEmotionService` |
+| Cognition | `cognition-roll.md` | `IRollService` |
+| Social | `social-relationship.md` | `IRelationshipService` |
+| Social | `social-faction.md` | `IFactionService` |
+| Social | `social-companion.md` | `ICompanionService` |
+| Social | `social-ideology.md` | `IIdeologyService` |
+| Simulation | `sim-actor.md` | `IActorService` |
+| Simulation | `sim-time.md` | `ITimeService` |
+| Simulation | `sim-location.md` | `ILocationService` |
+| Simulation | `sim-event.md` | `IEventBus` |
+| Simulation | `sim-fact.md` | `IFactService` |
+| Simulation | `sim-info-flow.md` | `IInfoFlowService` |
+| Simulation | `sim-economy.md` | `IEconomyService` |
+| Simulation | `sim-persistence.md` | `IPersistenceService` |
+| Story | `story-dialogue.md` | `IDialogueService` |
+| Story | `story-voice.md` | `IVoiceService` |
+| Story | `story-state.md` | `IStoryStateService` |
+| Story | `story-pacing.md` | `IPacingService` |
+| Story | `story-outcome.md` | `IOutcomeService` |
+| Story | `story-fail-forward.md` | (design pattern) |
+| Ledger | `ledger-chronicle.md` | `IChronicleService` |
+| Ledger | `ledger-thread.md` | `IThreadService`, `ThreadEngine` |
+| Rules | `rules-engine.md` | `IRuleEngine` |
+| Rules | `rules-gate.md` | `IGateService` |
+| Content | `content-store.md` | `IContentStore` |
+| Content | `content-script.md` | `ScriptCompiler` |
+| Content | `content-pipeline.md` | `IContentPipeline` |
+| Content | `content-locale.md` | `ILocaleService` |
+| Content | `content-inventory.md` | `IInventoryService` |
+| Presentation | `present-ui.md` | `IUIShell` |
+| Presentation | `present-audio.md` | `IAudioNarrativeService` |
+| Presentation | `present-exploration.md` | `IExplorationService` |
+| Presentation | `present-interaction.md` | `IInteractionService` |
+| Presentation | `present-discovery.md` | `IDiscoveryService` |
+
+---
+
+## API suffix rules
+
+| Suffix | Use for |
+|---|---|
+| `*Service` | Runtime behavior, state mutation |
+| `*Definition` | Authored ScriptableObject / asset |
+| `*State` | Serializable runtime snapshot |
+| `*Registry` | ID → definition lookup |
+| `*Store` | Large content repository |
+| `*Gate` | Access rule |
+| `*Controller` | Presentation bridge |
+| `*Engine` | Orchestrators only: `RuleEngine`, `ThreadEngine` |
+
+Interface pattern: `I{Concept}Service` unless ambiguous, then `I{Module}{Concept}Service`.
+
+---
+
+## Content IDs
+
+Format: `{prefix}_{descriptor}` (snake_case). No setting nouns.
+
+| Prefix | Module | Examples |
+|---|---|---|
+| `faculty_` | Cognition | `faculty_intuition`, `faculty_instinct` |
+| `belief_` | Cognition | `belief_doctrine_a` |
+| `conduct_` | Cognition | `conduct_humble`, `conduct_bold` |
+| `emotion_` | Cognition | `emotion_stress` |
+| `actor_` | Simulation | `actor_companion`, `actor_merchant` |
+| `faction_` | Social | `faction_guild`, `faction_authority` |
+| `metric_` | Social | `metric_trust_companion` |
+| `fact_` | Simulation | `fact_incident_time` |
+| `flag_` | Story | `flag_thread_resolved` |
+| `beat_` | Story | `beat_intro`, `beat_resolution` (optional; may use content-store IDs) |
+| `thread_` | Ledger | `thread_main` |
+| `section_` | Ledger | `section_primary` |
+| `location_` | Simulation | `location_warehouse` |
+| `group_` | Cognition | `group_psyche` (faculty group) |
+
+---
+
+## Term dictionary by module
+
+### Framework meta
+
+| Term | Definition |
+|---|---|
+| **NSF** | Narrative Simulation Framework — reusable narrative simulation layer for Unity. |
+| **Content pack** | Game built on NSF: scripts + data + assets + config. |
+| **Player character** | Protagonist entity; role is content-defined. |
+
+### Cognition
+
+| Term | API | Notes |
+|---|---|---|
+| **Faculty** | `Faculty`, `FacultyDefinition`, `IFacultyService` | Autonomous interpretive faculty: value, voice, passive filter, roll input. |
+| **Faculty group** | `FacultyGroup` | Top-level stat bucket (default 4×6 schema is content-defined). |
+| **Roll** | `FacultyRoll`, `IRollService`, `RollResult` | Faculty roll resolution. |
+| **Roll mode** | `RollMode` | Active, Passive, Repeatable, Gated. |
+| **Belief** | `Belief`, `BeliefDefinition`, `IBeliefService` | Idea the player assimilates; not a static perk. |
+| **Belief phase** | `BeliefPhase` | Discovered → Assimilating → Resolved → Forgotten. |
+| **Conduct** | `ConductScore`, `IConductService` | Emergent identity from repeated behavior (`conduct_*` IDs). |
+| **Standing** | `StandingScore` | Public reputation (distinct from conduct). |
+| **Emotion** | `EmotionState`, `IEmotionService` | Mood/stress/confidence affecting narration and rolls. |
+| **Vitality / Morale** | `Vitality`, `Morale` | Wellbeing pools derived from content-assigned faculties. |
+
+### Social
+
+| Term | API | Notes |
+|---|---|---|
+| **Actor** | `ActorDefinition` | Any autonomous character (see Simulation). |
+| **Companion** | `ICompanionService` | Social subsystem for persistent partner actor. |
+| **Relationship** | `IRelationshipService` | Trust, affinity, respect, dependency. |
+| **Faction** | `IFactionService`, `FactionId` | Organized group with agenda and reputation. |
+| **Ideology** | `IIdeologyService`, `IdeologyAxis` | Worldview accumulation on content-defined axes. |
+
+### Simulation
+
+| Term | API | Notes |
+|---|---|---|
+| **Actor** | `IActorService`, `ActorDefinition` | World character with memory, schedule, dialogue state. |
+| **Fact** | `IFactService`, `FactRecord` | Atomic persistent truth unit. |
+| **Info flow** | `IInfoFlowService` | Who learned what, when, from whom. |
+| **Persistence** | `IPersistenceService` | Save/load and long-term consequence. |
+| **Event** | `SimEvent`, `IEventBus` | Triggered world/narrative update. |
+| **Time** | `ITimeService` | In-game clock and schedules. |
+| **Location** | `ILocationService` | Areas, transitions, fast travel. |
+
+### Story
+
+| Term | API | Notes |
+|---|---|---|
+| **Story flag** | `StoryFlag`, `StoryFlagRegistry` | Boolean/enum narrative state driver. |
+| **Story state** | `IStoryStateService` | Progression orchestrator: flags, variables, beat transitions. |
+| **Story beat** | `StoryBeat`, `StoryBeatDefinition`, `StoryBeatState` | Atomic progression unit inside story state (start → advance → complete). Not a chronicle entry. |
+| **Pacing** | `IPacingService` | When content may fire. |
+| **Voice** | `IVoiceService` | Narrator, monologue, environmental narration. |
+| **Outcome** | `IOutcomeService` | Ending synthesis. |
+| **Fail forward** | — | Design pattern: failure produces content. |
+
+### Ledger
+
+| Term | API | Notes |
+|---|---|---|
+| **Chronicle** | `IChronicleService`, `ChronicleView` | Player-facing narrative record (not a quest log). |
+| **Chronicle section** | `ChronicleSection` | Chronicle grouping for one storyline. |
+| **Thread** | `IThreadService`, `ThreadEngine` | Evidence/theory/subject inquiry logic. |
+| **Thread subject** | `ThreadSubject` | Entity or hypothesis under inquiry. |
+| **Lead / Task / Clue** | `ChronicleEntryType` | Entry types in chronicle. |
+| **Evidence / Theory** | `ThreadEvidence`, `ThreadTheory` | Thread reasoning objects. |
+
+### Rules
+
+| Term | API | Notes |
+|---|---|---|
+| **Rule engine** | `IRuleEngine`, `Rule`, `Condition`, `Action` | IF/THEN evaluation. |
+| **Gate** | `IGateService`, `GateRule` | Content access rule. |
+
+### Content
+
+| Term | API | Notes |
+|---|---|---|
+| **Content store** | `IContentStore` | Narrative data repository. |
+| **Script** | `ScriptNode`, `.nsf` files | NSF Script DSL. |
+| **Content pipeline** | `IContentPipeline` | Authoring validation workflow. |
+| **Locale** | `ILocaleService` | Localization. |
+
+### Presentation
+
+| Term | API | Notes |
+|---|---|---|
+| **Faculty interjection** | `FacultyInterjection` | Faculty break-in during dialogue. |
+| **Belief view** | `BeliefView` | Belief slot UI (skin label = content). |
+| **UI shell** | `IUIShell` | Presentation layer root. |
+
+### Runtime
+
+| Term | API | Notes |
+|---|---|---|
+| **Simulation kernel** | `ISimulationKernel` | Meta-coordination of all modules in the simulation loop. |
+
+---
+
+## Term relationships
+
+```text
+ThreadEngine      — inquiry logic (evidence, theories, subjects); authoritative for investigation
+StoryState        — drives progression (flags, story beats, variables)
+Chronicle         — read-only projection (sections, leads, tasks, clues)
+ChronicleSection  — chronicle grouping for one storyline; not a story beat ID
+StoryBeat         — one progression unit in IStoryStateService; not the whole thread
+Task / Lead / Clue — chronicle entry types; projected from thread + story state + facts
+```
+
+### When to use which term
+
+| You mean… | Use | Not |
+|---|---|---|
+| Evidence, theories, subjects, inquiry resolution | **Thread** / `ThreadEngine` | Story beat, quest |
+| Start / advance / complete a narrative step | **Story beat** / `IStoryStateService` | Thread, task |
+| Player journal grouping (“the homicide storyline”) | **Chronicle section** / `section_*` | Thread object, story beat |
+| “Talk to X”, “find the key” in the chronicle UI | **Task** / **Lead** / **Clue** | Story beat (unless authoring a beat transition) |
+| Player-facing label “Quests” in a detective game | **Content pack UI skin** | Framework API name |
+| Atomic world truth | **Fact** / `IFactService` | Story flag, chronicle text |
+
+**Actor vs Companion:** Actor is the simulation entity type; Companion is the social subsystem wrapping a partner `ActorId`.
+
+**Conduct vs Standing:** Conduct = internal behavior scores (`conduct_*`); Standing = public reputation label.
+
+**Fact vs Story flag:** Fact = simulation truth; story flag = narrative progression switch owned by story state.
+
+---
+
+## Migration map (intermediate → NSF API)
+
+| Old | New |
+|---|---|
+| Skill / ISkill / SkillDefinition | Faculty / IFaculty / FacultyDefinition |
+| ISkillCheckService | IRollService |
+| Skill check / white-red check | Roll / Repeatable or Gated roll |
+| Thought / Thought Cabinet | Belief / BeliefView |
+| Copotype / archetype (identity) | Conduct / `conduct_*` |
+| Investigation Journal | Chronicle |
+| Case (journal grouping) | Chronicle section / `section_*` |
+| Case (monolithic investigation) | Thread + chronicle section |
+| Quest / quest log (framework) | Split: **Thread** + **Story beat** + **Chronicle** (see § When to use which term) |
+| Quest (content pack UI label) | Keep in content pack; map to story beat / section in data |
+| InquirySubject | ThreadSubject |
+| Investigation Thread | Thread / ThreadEngine |
+| Belief Internalization | Belief / IBeliefService |
+| Internalizing / Internalized | Assimilating / Resolved |
+| Behavioral Archetype | Conduct |
+| Narrative flag | Story flag |
+| NPC (generic) | Actor |
+| Political alignment | Ideology |
+| Reputation (public) | Standing |
+| Knowledge system | Fact / IFactService |
+| Check resolution | Roll |
+| Save-state consequence | Persistence |
+| Information propagation | Info flow |
+| Content gating | Gate |
+| Narrative Simulation Core | Simulation kernel |
+
+---
+
+## Legacy renames (commercial game → NSF)
+
+| Legacy | NSF |
+|---|---|
+| Disco Elysium | NSF / narrative simulation RPG |
+| Thought Cabinet | Belief system |
+| Thought(s) | Belief(s) |
+| Copotype | Conduct |
+| White / Red check | Repeatable / Gated roll |
+| HP / MOR | Vitality / Morale |
+
+Full instance mappings: [`appendix-detective-noir-mapping.md`](appendix-detective-noir-mapping.md).
+
+---
+
+## Integration section headers
+
+| Legacy | NSF |
+|---|---|
+| `# Belief Integration` | `# Belief Integration` |
+| `# Conduct Integration` | `# Conduct Integration` |
+| `# Belief UI` | `# Belief View` |
+
+---
+
+## Authoring rules
+
+- Spec title: `# {N}. {Module}: {Concept} — NSF Specification`
+- Framework examples: placeholder IDs only (§ Content IDs)
+- **Term usage:** follow § When to use which term — do not use "quest" in framework API/prose except when contrasting with chronicle design or describing content-pack UI skins
+- Scope block:
+
+```markdown
+> **Framework:** [mechanics, interfaces, data shapes NSF owns]
+> **Content pack:** [names, labels, IDs, UI skin the game owns]
+> Terminology: [Glossary](terminology-glossary.md)
+```
