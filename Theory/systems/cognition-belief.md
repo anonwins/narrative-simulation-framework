@@ -909,31 +909,30 @@ Everything must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface IBelief
-{
-    string Id;
-
-    BeliefState State;
-
-    float Progress;
-
-    List<Effect> TemporaryEffects;
-
-    List<Effect> FinalEffects;
-}
-
 interface IBeliefService
 {
-    List<IBelief> Available;
-
-    List<IBelief> Assimilating;
-
-    List<IBelief> Resolved;
+    BeliefPhase GetPhase(string beliefId);
+    void Discover(string beliefId);
+    void BeginAssimilating(string beliefId);
+    void Resolve(string beliefId);
+    void Forget(string beliefId);
+    IReadOnlyList<string> GetActiveBeliefIds();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class BeliefDefinition { string Id; string Title; BeliefPhase InitialPhase; }
+class BeliefState { string BeliefId; BeliefPhase Phase; float AssimilationProgress; }
+enum BeliefPhase { Discovered, Assimilating, Resolved, Forgotten }
+```
+
 
 # Relationship To Other Systems
 

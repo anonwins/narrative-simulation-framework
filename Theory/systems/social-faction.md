@@ -667,25 +667,28 @@ Faction Goal Progress
 
 # Minimal Engine Interfaces
 
-```csharp id="fac42"
-interface IFaction
-{
-    string Id;
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
-    FactionReputation GetPlayerReputation();
+## Service contract
 
-    void ApplyEvent(FactionEvent e);
-}
-
+```csharp
 interface IFactionService
 {
-    IFaction GetFaction(string id);
-
-    void Notify(SimEvent e);
+    int GetStanding(string factionId);
+    void ModifyStanding(string factionId, int delta);
+    FactionStance GetStance(string factionId);
+    IReadOnlyList<string> GetMemberActorIds(string factionId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class FactionDefinition { string Id; string NameKey; }
+enum FactionStance { Neutral, Friendly, Hostile, Allied }
+interface IFaction { string Id; int Standing; FactionStance Stance; }
+```
+
 
 # Recommended Internal Flow
 

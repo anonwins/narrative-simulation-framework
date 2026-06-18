@@ -707,23 +707,26 @@ World interactions are persistent facts, not ephemeral events.
 
 # Minimal Engine Interfaces
 
-```csharp id="v5r0pm"
-interface IWorldObject
-{
-    string Id;
-    string Name;
-    ObjectState State;
-    List<IInteractionNode> Interactions;
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
-interface IInteractionNode
+## Service contract
+
+```csharp
+interface IInteractionService
 {
-    bool CanExecute(GameContext context);
-    InteractionResult Execute(GameContext context);
+    IReadOnlyList<InteractionOption> GetAvailableInteractions(string worldObjectId);
+    void ExecuteInteraction(string worldObjectId, string interactionId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+interface IWorldObject { string Id; string DisplayName; }
+class InteractionNode { string Id; string Label; InteractionCondition[] Conditions; }
+class InteractionOption { string InteractionId; string Label; }
+```
+
 
 # Most Important Insight
 

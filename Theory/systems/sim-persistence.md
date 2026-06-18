@@ -698,18 +698,26 @@ Narrative debugging becomes impossible otherwise.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
 interface IPersistenceService
 {
-    void Apply(SimEvent e);
-
-    bool HasFlag(string id);
-
-    object GetState(string key);
+    SaveSnapshot Capture();
+    void Restore(SaveSnapshot snapshot);
+    int CurrentSchemaVersion { get; }
 }
 ```
 
----
+## Domain model
+
+```csharp
+class SaveSnapshot { int SchemaVersion; byte[] Payload; string StateHash; }
+class ServiceStateEnvelope { string ServiceType; string JsonState; }
+```
+
 
 # Recommended Internal Flow
 

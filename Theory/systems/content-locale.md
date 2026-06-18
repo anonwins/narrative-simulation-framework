@@ -587,6 +587,28 @@ Audio mismatch
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface ILocaleService
+{
+    string Resolve(string key, string localeId, IReadOnlyDictionary<string, string> substitutions);
+    string GetFallbackLocale();
+    bool HasKey(string key, string localeId);
+}
+```
+
+## Domain model
+
+```csharp
+class LocaleTable { string LocaleId; Dictionary<string, string> Entries; }
+```
+
 # Minimum Viable System
 
 For a large-scale narrative RPG:

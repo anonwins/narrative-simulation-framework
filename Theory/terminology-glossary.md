@@ -74,6 +74,79 @@
 | Presentation | `systems/present-exploration.md` | `IExplorationService` |
 | Presentation | `systems/present-interaction.md` | `IInteractionService` |
 | Presentation | `systems/present-discovery.md` | `IDiscoveryService` |
+| Runtime | `runtime-kernel.md` | `INarrativeServiceRegistry` |
+
+---
+
+## Contracts catalog
+
+**Canonical public API** for NSF. Spec `# Minimal Engine Interfaces → Service contract` sections must match these signatures. Domain types belong in spec `Domain model` subsections only.
+
+| Kind | Symbol | Module | Role |
+|---|---|---|---|
+| Kernel | `ISimulationKernel` | Runtime | Tick loop orchestration |
+| Registry | `INarrativeServiceRegistry` | Runtime | Service locator / DI surface |
+| Event bus | `IEventBus` | Simulation | Pub/sub narrative events |
+| Service | 32 × `I*Service` | per module | State mutation + queries |
+| Engine | `RuleEngine` | Rules | Concrete rule evaluator (implements `IRuleEngine`) |
+| Engine | `ThreadEngine` | Ledger | Concrete inquiry orchestrator (used by `IThreadService`) |
+| Compiler | `ScriptCompiler` | Content | Concrete NSF Script compiler |
+| Pattern | Fail-forward | Story | No service — integration pattern only |
+
+### Registry naming
+
+| Symbol | Visibility | Role |
+|---|---|---|
+| `IContentStore` | Public facade | Content pack access API |
+| `ContentRegistry` | Internal | ID → definition lookup inside Content module |
+| `FactRegistry` | Internal | ID → active `FactRecord` index inside Simulation |
+| `StoryFlagRegistry` | Internal | ID → flag definition index inside Story |
+
+**Rule:** `*Registry` = internal lookup; `I*Store` / `I*Service` = public facade.
+
+### SimulationTickPhase
+
+Implementation tick order (Phase 1 kernel). Maps nine conceptual loop layers to six code phases:
+
+| Phase | Enum value | Conceptual layers | Primary services |
+|---|---|---|---|
+| 1 | `Facts` | Layer 1: Facts | `IFactService` |
+| 2 | `Interpretation` | Layer 2: Interpretation | `IDialogueService`, `IVoiceService`, cognition interpretation |
+| 3 | `Social` | Layers 3–4: Relationship + Faction | `IRelationshipService`, `IFactionService`, `IIdeologyService` |
+| 4 | `Events` | Layers 5–6: Event + World State | `IEventBus`, `IActorService`, `ITimeService`, `ILocationService` |
+| 5 | `Gating` | Layer 7: Constraints | `IGateService`, `IRuleEngine`, `IPacingService` |
+| 6 | `Content` | Layers 8–9: New Content + New Facts | `IContentStore`, script effects, new fact emission |
+
+### Runtime infrastructure
+
+```csharp
+enum SimulationTickPhase { Facts, Interpretation, Social, Events, Gating, Content }
+
+interface ISimulationKernel
+{
+    SimulationTickPhase CurrentPhase { get; }
+    void Tick(SimulationTickPhase? singlePhase = null);
+    void Initialize(INarrativeServiceRegistry registry);
+}
+
+interface INarrativeServiceRegistry
+{
+    T GetRequired<T>() where T : class;
+    bool TryGet<T>(out T service) where T : class;
+    void Register<T>(T service) where T : class;
+}
+```
+
+### Presentation presenters (Phase 13)
+
+Headless-testable UI bridges — not referenced by core modules:
+
+| Symbol | Role |
+|---|---|
+| `IUIShell` | Presentation root; wires presenters |
+| `IDialoguePresenter` | Dialogue UI model sink |
+| `IChroniclePresenter` | Chronicle UI model sink |
+| `IBeliefView` | Belief slot UI model sink |
 
 ---
 
@@ -198,7 +271,9 @@ Format: `{prefix}_{descriptor}` (snake_case). No setting nouns.
 
 | Term | API | Notes |
 |---|---|---|
-| **Content store** | `IContentStore` | Narrative data repository. |
+| **Content store** | `IContentStore`, `ContentRegistry` | Public facade + internal ID lookup. |
+| **Fact registry** | `FactRegistry` | Internal index of active facts (via `IFactService`). |
+| **Story flag registry** | `StoryFlagRegistry` | Internal index of flag definitions (via `IStoryStateService`). |
 | **Script** | `ScriptNode`, `.nsf` files | NSF Script DSL. |
 | **Content pipeline** | `IContentPipeline` | Authoring validation workflow. |
 | **Locale** | `ILocaleService` | Localization. |
@@ -210,12 +285,16 @@ Format: `{prefix}_{descriptor}` (snake_case). No setting nouns.
 | **Faculty interjection** | `FacultyInterjection` | Faculty break-in during dialogue. |
 | **Belief view** | `BeliefView` | Belief slot UI (skin label = content). |
 | **UI shell** | `IUIShell` | Presentation layer root. |
+| **Dialogue presenter** | `IDialoguePresenter` | Headless-testable dialogue UI bridge. |
+| **Chronicle presenter** | `IChroniclePresenter` | Headless-testable chronicle UI bridge. |
 
 ### Runtime
 
 | Term | API | Notes |
 |---|---|---|
 | **Simulation kernel** | `ISimulationKernel` | Meta-coordination of all modules in the simulation loop. |
+| **Service registry** | `INarrativeServiceRegistry` | Resolves all `I*Service` implementations at runtime. |
+| **Simulation tick phase** | `SimulationTickPhase` | Kernel execution order (see § SimulationTickPhase). |
 
 ---
 
@@ -311,10 +390,25 @@ Full instance mappings: [`appendix-detective-noir-mapping.md`](appendix-detectiv
 - Spec title: `# {N}. {Module}: {Concept} — NSF Specification`
 - Framework examples: placeholder IDs only (§ Content IDs)
 - **Term usage:** follow § When to use which term — do not use "quest" in framework API/prose except when contrasting with chronicle design or describing content-pack UI skins
-- Scope block:
+- Scope block (systems specs use `../terminology-glossary.md`):
 
 ```markdown
 > **Framework:** [mechanics, interfaces, data shapes NSF owns]
 > **Content pack:** [names, labels, IDs, UI skin the game owns]
-> Terminology: [Glossary](terminology-glossary.md)
+> Terminology: [Glossary](../terminology-glossary.md)
+```
+
+- Spec tail structure (required):
+
+```markdown
+# Minimal Engine Interfaces
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+(canonically matches glossary § Contracts catalog)
+
+## Domain model
+(internal types only)
+
+# Minimum Viable System
 ```

@@ -736,20 +736,33 @@ The entire reasoning structure must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
 interface IThreadService
 {
-    void AddEvidence(string evidenceId);
+    void AddEvidence(string threadId, ThreadEvidence evidence);
+    void AddTheory(string threadId, ThreadTheory theory);
+    bool TryResolveSubject(string threadId, string subjectId, out ThreadResolution resolution);
+}
 
-    void AddFact(string factId);
-
-    void AddSuspect(string suspectId);
-
-    void EvaluateTheories();
+class ThreadEngine
+{
+    ThreadState Evaluate(string threadId, IReadOnlyFactView facts);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class ThreadSubject { string Id; string Label; }
+class ThreadEvidence { string Id; string FactId; string SourceActorId; }
+class ThreadTheory { string Id; string Hypothesis; string[] SupportingEvidenceIds; }
+class ThreadState { string ThreadId; ThreadSubject[] Subjects; }
+```
+
 
 # Recommended Internal Flow
 

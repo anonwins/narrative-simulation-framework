@@ -573,7 +573,30 @@ Without tooling, DSLs collapse under complexity.
 
 ---
 
-# Minimal Viable DSL
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+class ScriptCompiler
+{
+    ScriptCompileResult Compile(string source, string filePath);
+    ScriptCompileResult CompileFile(string nsfFilePath);
+}
+```
+
+## Domain model
+
+```csharp
+class ScriptNode { string Id; ScriptCondition[] Conditions; ScriptEffect[] Effects; }
+class ScriptCompileResult { bool Success; ScriptNode[] Nodes; string[] Errors; }
+class ScriptCondition { string Expression; }
+class ScriptEffect { string Action; string Target; }
+```
+
+# Minimum Viable System
 
 For large-scale narrative RPG:
 
@@ -593,6 +616,7 @@ DEBUG tracing
 ```
 
 ---
+
 
 # Final Concept
 

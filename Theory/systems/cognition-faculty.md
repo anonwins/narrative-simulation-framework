@@ -908,34 +908,32 @@ Triggered Passive Checks
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-class FacultyGroupState
+interface IFacultyService
 {
-    int BaseValue;
-    int ModifiedValue;
-}
-
-class FacultyState
-{
-    int BaseValue;
-    int ModifiedValue;
-
-    VoiceProfile Voice;
-
-    PassiveRule[] PassiveRules;
-}
-
-interface RollDefinition
-{
-    Faculty Faculty;
-    int Difficulty;
-
-    Outcome Success;
-    Outcome Failure;
+    int GetValue(string facultyId);
+    int GetModifiedValue(string facultyId);
+    void ApplyModifier(string facultyId, int delta, ModifierSource source);
+    Vitality GetVitality();
+    Morale GetMorale();
+    IReadOnlyList<string> GetFacultyIdsInGroup(string groupId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class FacultyDefinition { string Id; string GroupId; string VoiceProfileId; }
+class FacultyState { string FacultyId; int BaseValue; int ModifiedValue; }
+class FacultyGroupState { string GroupId; int BaseValue; int ModifiedValue; }
+class Vitality { int Current; int Max; }
+class Morale { int Current; int Max; }
+```
+
 
 # Most Important Insight
 

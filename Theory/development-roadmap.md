@@ -3,13 +3,13 @@
 **Living execution tracker** for implementing the Narrative Simulation Framework.
 
 - Specs: [System Catalog](index.md) · [Terminology Glossary](terminology-glossary.md) · [Development Roadmap](development-roadmap.md)
-- Greywater game plan (separate): [`../Docs/PLAN.md`](../Docs/PLAN.md)
+- Greywater game plan (separate): legacy reference only — no `Docs/PLAN.md` in this repo.
 
 ## Phase status
 
 | Phase | Name | Status | Tests | Notes |
 |---|---|---|---|---|
-| −1 | Spec API alignment | **done** | — | Legacy interface names in spec code blocks updated to glossary API |
+| −1 | Spec API alignment | **done** | — | Phase A doc foundation complete — glossary, runtime-kernel, all 37 system specs aligned |
 | 0 | Package scaffold | pending | — | |
 | 1 | Runtime kernel | pending | — | |
 | 2 | Content foundation | pending | — | |
@@ -47,21 +47,30 @@
 
 ## Execution readiness (prep audit)
 
-**Verdict: Ready to start Phase 0** after creating the dedicated NSF Unity project.
+**Verdict: Ready to start Phase 0** after Phase A doc foundation is complete and dedicated NSF Unity project exists.
 
-### Completed prep (Phase −1)
+### Doc foundation gate (Phase A — before Phase 0 code)
 
-- [x] Spec **Minimal Engine Interfaces** blocks aligned to glossary (`IActorService` names, `IChronicleService`, `IStoryStateService`, etc.)
-- [x] Architecture **diagrams and prose** aligned; **term split** applied (Thread / Story beat / Chronicle section / Task per glossary § When to use which term)
+- [x] Glossary contracts catalog complete
+- [x] All 37 systems specs have aligned `Minimal Engine Interfaces`
+- [x] runtime-kernel tick phase map present
+- [x] No broken Theory cross-links
+
+### Completed prep (Phase −1 + Phase A doc foundation)
+
+- [x] Glossary **Contracts catalog**, `INarrativeServiceRegistry`, `SimulationTickPhase`, registry naming (`IContentStore` / `ContentRegistry`)
+- [x] [runtime-kernel.md](runtime-kernel.md) **Implementation tick phases** + `Minimal Engine Interfaces`
+- [x] Spec **Minimal Engine Interfaces** blocks: Service contract + Domain model subsections (all 37 systems specs)
 - [x] Fail-forward documented as pattern (not a standalone service)
 - [x] Glossary typo fixed: `metric_trust_companion` (was `metric_metric_trust_companion`)
+- [x] Standard MVP heading: `# Minimum Viable System` across all specs
 
 ### Locked implementation rules (SSOT)
 
 1. **Glossary wins** over prose and code examples in specs when they conflict.
 2. **Namespace:** `NarrativeFramework.{Module}` (e.g. `NarrativeFramework.Cognition`).
 3. **No `Greywater.*` imports** — greenfield only.
-4. **MVP scope:** Use each spec's *Minimum Viable System* section when present (10 specs). Otherwise use that phase's **Deliverables** list in this roadmap + spec *Core Architecture* / *Minimal Engine Interfaces*.
+4. **MVP scope:** Use each spec's *Minimum Viable System* section first; otherwise use that phase's **Deliverables** list in this roadmap + spec *Service contract*.
 
 ### Phase 0 contract inventory (not “40 interfaces”)
 
@@ -119,9 +128,9 @@ Do **not** require `setup-nsf-sample.ps1` before Phase 14.
 
 | Gap | Phase |
 |---|---|
-| Vitality / Morale pools in `systems/cognition-faculty.md` not listed in Phase 3 deliverables | Add to Phase 3 |
-| `IContentStore` vs `ContentRegistry` naming — both in glossary | Phase 2: `IContentStore` facade + internal registry |
-| Only 10/38 specs have MVP sections | Use roadmap deliverables as fallback (rule above) |
+| Vitality / Morale pools in `systems/cognition-faculty.md` | **Resolved** — `IFacultyService` + Phase 3 deliverables |
+| `IContentStore` vs `ContentRegistry` naming — both in glossary | **Resolved** — glossary § Registry naming; content-store spec |
+| Only 10/38 specs had MVP sections | **Resolved** — all specs use `# Minimum Viable System`; derive scope from MVP section or phase deliverables |
 
 ### Risks updated
 

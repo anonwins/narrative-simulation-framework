@@ -526,16 +526,25 @@ Triggered political reactions
 
 # Minimal Engine Interfaces
 
-```csharp id="pol27"
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
 interface IIdeologyService
 {
-    int GetScore(string ideology);
-    void AddScore(string ideology, int amount);
-    bool HasMilestone(string milestoneId);
+    float GetAxisValue(string axisId);
+    void ShiftAxis(string axisId, float delta);
+    string GetDominantLabel(string axisId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class IdeologyAxis { string Id; float Value; string LeftLabelKey; string RightLabelKey; }
+```
+
 
 # Most Important Insight
 

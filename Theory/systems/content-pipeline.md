@@ -529,7 +529,30 @@ Build dashboard
 
 ---
 
-# Minimum Viable Pipeline
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IContentPipeline
+{
+    PipelineReport Validate(ContentPackManifest manifest);
+    PipelineReport Build(ContentPackManifest manifest);
+    bool TryFix(ContentPackManifest manifest, out PipelineReport report);
+}
+```
+
+## Domain model
+
+```csharp
+class ContentPackManifest { string PackId; string SchemaVersion; string[] AssetPaths; }
+class PipelineReport { bool Success; PipelineIssue[] Issues; }
+class PipelineIssue { string Severity; string Message; string AssetPath; }
+```
+
+# Minimum Viable System
 
 For a large-scale narrative RPG:
 
@@ -548,6 +571,7 @@ Incremental processing
 ```
 
 ---
+
 
 # Final Concept
 

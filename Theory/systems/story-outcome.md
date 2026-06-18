@@ -536,6 +536,28 @@ text generation
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IOutcomeService
+{
+    OutcomeSynthesis Synthesize(OutcomeContext context);
+    string GetEndingId(OutcomeContext context);
+}
+```
+
+## Domain model
+
+```csharp
+class OutcomeContext { IReadOnlyStoryStateView Story; IReadOnlyConductView Conduct; IReadOnlyThreadView Threads; }
+class OutcomeSynthesis { string EndingId; string SummaryKey; }
+```
+
 # Minimum Viable System
 
 For a large-scale narrative RPG:

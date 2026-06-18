@@ -7,6 +7,8 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 - [Development roadmap](development-roadmap.md) (implementation phases)
 - [Simulation kernel meta-guide](runtime-kernel.md)
 
+**Doc layers:** [Glossary](terminology-glossary.md) (SSOT) → [systems/](systems/) (specs) → [architecture/](architecture/) (implementation plans, after Phase A).
+
 **40 logical systems · 37 spec files in [`systems/`](systems/)** (systems 1–2, 3–4 share a file each), plus [runtime-kernel.md](runtime-kernel.md).
 
 ---

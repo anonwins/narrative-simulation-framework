@@ -517,22 +517,26 @@ Discovery history
 
 # Minimal Engine Interfaces
 
-```csharp id="pd16"
-interface IDiscoverable
-{
-    string Id;
-    DiscoveryState State;
-    bool CanReveal(GameContext context);
-    void Reveal(GameContext context);
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
+## Service contract
+
+```csharp
 interface IDiscoveryService
 {
-    void EvaluateScene(Scene scene, GameContext context);
+    bool IsDiscovered(string discoverableId);
+    void MarkDiscovered(string discoverableId, DiscoverySource source);
+    IReadOnlyList<string> GetDiscoveredIds();
 }
 ```
 
----
+## Domain model
+
+```csharp
+interface IDiscoverable { string Id; bool HiddenUntilDiscovered; }
+enum DiscoverySource { Exploration, Dialogue, Item, Script }
+```
+
 
 # Most Important Insight
 

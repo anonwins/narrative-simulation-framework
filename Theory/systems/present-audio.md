@@ -585,6 +585,28 @@ Overlapping audio → priority resolution
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IAudioNarrativeService
+{
+    void PlayVoiceLine(string voiceLineId, string localeId);
+    void PlayAmbient(string ambientId);
+    void StopChannel(string channelId);
+}
+```
+
+## Domain model
+
+```csharp
+class VoiceLineDefinition { string Id; string AudioAssetId; string LocaleId; }
+```
+
 # Minimum Viable System
 
 For a large-scale narrative RPG:

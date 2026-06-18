@@ -604,31 +604,32 @@ Everything must be restorable exactly.
 
 # Minimal Engine Interfaces
 
-```csharp id="p7v1qa"
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
 interface IStoryStateService
 {
-    void HandleEvent(SimEvent e);
-    StoryState GetState(string id);
-}
-
-interface IStoryBeat
-{
-    string Id;
-    StoryBeatState State;
-}
-
-interface IStoryBeatTrigger
-{
-    bool Matches(SimEvent e, StoryContext context);
-}
-
-interface IStoryBeatTransition
-{
-    void Apply(StoryContext context);
+    bool GetFlag(string flagId);
+    void SetFlag(string flagId, bool value);
+    T GetVariable<T>(string key);
+    void SetVariable<T>(string key, T value);
+    void AdvanceBeat(string beatId);
+    StoryBeatState GetBeatState(string beatId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class StoryFlag { string Id; bool Value; }
+class StoryFlagRegistry { bool TryGetDefinition(string id, out StoryFlagDefinition def); }
+class StoryBeatDefinition { string Id; string[] PrerequisiteFlagIds; }
+class StoryBeatState { string BeatId; BeatPhase Phase; }
+enum BeatPhase { Pending, Active, Complete }
+```
+
 
 # Most Important Insight
 

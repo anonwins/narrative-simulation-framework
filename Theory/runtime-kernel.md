@@ -464,6 +464,69 @@ time-based simulation ticks
 
 ---
 
+# Implementation tick phases
+
+The conceptual nine-layer loop (above) executes in **six kernel tick phases** for code. See glossary § SimulationTickPhase.
+
+| Tick phase | Conceptual layers | Primary services |
+|---|---|---|
+| `Facts` | Layer 1 | `IFactService` |
+| `Interpretation` | Layer 2 | `IDialogueService`, `IVoiceService`, cognition |
+| `Social` | Layers 3–4 | `IRelationshipService`, `IFactionService`, `IIdeologyService` |
+| `Events` | Layers 5–6 | `IEventBus`, `IActorService`, `ITimeService`, `ILocationService` |
+| `Gating` | Layer 7 | `IGateService`, `IRuleEngine`, `IPacingService` |
+| `Content` | Layers 8–9 | `IContentStore`, script effects, new facts |
+
+`ISimulationKernel.Tick()` runs all six phases in order unless a single phase is requested (tests, partial updates).
+
+---
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+enum SimulationTickPhase { Facts, Interpretation, Social, Events, Gating, Content }
+
+interface ISimulationKernel
+{
+    SimulationTickPhase CurrentPhase { get; }
+    void Tick(SimulationTickPhase? singlePhase = null);
+    void Initialize(INarrativeServiceRegistry registry);
+}
+
+interface INarrativeServiceRegistry
+{
+    T GetRequired<T>() where T : class;
+    bool TryGet<T>(out T service) where T : class;
+    void Register<T>(T service) where T : class;
+}
+```
+
+## Domain model
+
+```csharp
+class SimulationSnapshot
+{
+    // Aggregated read-only view for event handlers and debug trace
+}
+
+interface IEventHandler
+{
+    void Handle(SimEvent e, SimulationSnapshot state);
+}
+```
+
+---
+
+# Minimum Viable System
+
+Same scope as **Minimum Viable Simulation Core** (fact, relationship, faction, event, world state, gating, causal propagation, timed ticks).
+
+---
+
 # Final Concept
 
 The Simulation Kernel is the **invisible machine beneath everything**.

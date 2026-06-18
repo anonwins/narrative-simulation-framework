@@ -503,15 +503,25 @@ This helps keep repeated descriptions from becoming stale.
 
 # Minimal Engine Interfaces
 
-```csharp id="nv16"
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
 interface IVoiceService
 {
-    string GenerateLine(VoiceContext context);
-    string DescribeScene(SceneDescriptor scene, SimulationSnapshot state);
+    void Speak(VoiceChannel channel, string textKey, string actorOrFacultyId);
+    void Stop(VoiceChannel channel);
 }
 ```
 
----
+## Domain model
+
+```csharp
+enum VoiceChannel { Narrator, Environmental, Faculty, Actor }
+class VoiceLine { VoiceChannel Channel; string TextKey; string SourceId; }
+```
+
 
 # Most Important Insight
 

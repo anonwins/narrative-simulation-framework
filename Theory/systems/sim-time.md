@@ -466,22 +466,28 @@ Everything time-dependent must survive reload correctly.
 
 # Minimal Engine Interfaces
 
-```csharp id="e4q8sm"
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
 interface ITimeService
 {
-    GameTime CurrentTime { get; }
-    void AdvanceMinutes(int minutes);
-    void AdvanceTo(GameTime target);
-}
-
-interface ITimeEvent
-{
-    bool IsTriggered(GameTime time, GameState state);
-    void Execute(GameState state);
+    GameTime Now { get; }
+    void Advance(GameTimeDelta delta);
+    void Schedule(string eventId, GameTime at);
+    bool IsScheduledDue(string eventId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+struct GameTime { int Day; int Hour; int Minute; }
+struct GameTimeDelta { int Days; int Hours; int Minutes; }
+interface ITimeEvent { string Id; GameTime TriggerAt; }
+```
+
 
 # Most Important Insight
 

@@ -553,18 +553,27 @@ This prevents inconsistent behavior after reload.
 
 # Minimal Engine Interfaces
 
-```csharp id="cr21"
-interface RollDefinition
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IRollService
 {
-    string Id;
-    string FacultyId;
-    int Difficulty;
-    bool CanRetry(GameState state);
-    RollResult Resolve(GameState state);
+    RollResult Resolve(FacultyRoll roll);
+    bool CanAttempt(RollMode mode, string rollId, RollContext context);
+    void RecoverRepeatable(string rollId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class FacultyRoll { string RollId; string FacultyId; int Difficulty; RollMode Mode; }
+class RollResult { bool Success; int RolledValue; int TargetValue; string OutcomeBranchId; }
+enum RollMode { Active, Passive, Repeatable, Gated }
+```
+
 
 # Most Important Insight
 

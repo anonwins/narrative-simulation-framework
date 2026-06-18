@@ -672,25 +672,27 @@ Seen Events
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface ICompanion
-{
-    RelationshipState Relationship;
-
-    void Observe(SimEvent e);
-
-    void Comment(CommentContext context);
-}
-
 interface ICompanionService
 {
-    bool IsPresent(string companionId);
-
-    void Notify(SimEvent e);
+    string GetCompanionActorId();
+    float GetTrustMetric(string metricId);
+    void ModifyTrust(string metricId, float delta);
+    bool IsAvailableForDialogue();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class CompanionProfile { string ActorId; string[] MetricIds; }
+interface ICompanion { string ActorId; float GetMetric(string metricId); }
+```
+
 
 # Recommended Internal Flow
 

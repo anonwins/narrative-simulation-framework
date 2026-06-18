@@ -868,6 +868,32 @@ Never brute-force every rule every frame.
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IRuleEngine
+{
+    bool Evaluate(Rule rule, RuleContext context);
+    void ExecuteActions(IReadOnlyList<Action> actions, RuleContext context);
+}
+
+class RuleEngine : IRuleEngine { }
+```
+
+## Domain model
+
+```csharp
+class Rule { string Id; Condition[] Conditions; Action[] Actions; }
+class Condition { string Expression; }
+class Action { string Type; string Target; string Value; }
+class RuleContext { IReadOnlyFactView Facts; IReadOnlyStoryStateView Story; }
+```
+
 # Minimum Viable System
 
 For An NSF-Elysium-inspired RPG:

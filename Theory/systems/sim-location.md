@@ -721,29 +721,27 @@ Everything must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface IArea
-{
-    string Id;
-    string Name;
-    List<IScene> Scenes;
-}
-
-interface IScene
-{
-    string Id;
-    SceneState State;
-
-    List<IWorldObject> Objects;
-}
-
 interface ILocationService
 {
-    IScene CurrentScene;
+    bool CanTravel(string fromLocationId, string toLocationId);
+    void Travel(string actorId, string toLocationId);
+    IReadOnlyList<string> GetConnectedLocations(string locationId);
+    string GetActorLocation(string actorId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+interface IArea { string Id; string DisplayNameKey; string[] ConnectedAreaIds; }
+class SceneDefinition { string Id; string AreaId; }
+```
+
 
 # Recommended Internal Separation
 

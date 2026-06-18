@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+Do **not** use Python, shell loops, or bulk automation scripts to refactor docs or rename across files.
+
+Use targeted edits (`StrReplace`, `Write`, read-then-edit) or subagents that apply the same manual per-file edits.

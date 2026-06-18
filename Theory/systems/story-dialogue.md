@@ -937,34 +937,30 @@ Everything must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface ISpeaker
+interface IDialogueService
 {
-    string Name;
-    SpeakerType Type;
-}
-
-interface IDialogueNode
-{
-    string Text;
-
-    List<IChoice> Choices;
-}
-
-interface IChoice
-{
-    List<ICondition> Conditions;
-
-    List<IEffect> Effects;
-}
-
-interface IConversation
-{
-    List<IDialogueNode> Nodes;
+    void StartConversation(string dialogueGraphId, string speakerActorId);
+    DialogueNode GetCurrentNode();
+    bool TrySelectChoice(string choiceId, out DialogueAdvanceResult result);
+    void EndConversation();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class DialogueNode { string Id; string TextKey; ChoiceDefinition[] Choices; }
+class ChoiceDefinition { string Id; string LabelKey; Condition[] Conditions; Effect[] Effects; }
+class Speaker { string ActorId; SpeakerType Type; }
+enum SpeakerType { Npc, Narrator, Faculty, Player }
+class ConversationState { string GraphId; string CurrentNodeId; }
+```
+
 
 # Most Important Insight
 

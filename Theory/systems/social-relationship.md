@@ -637,24 +637,26 @@ Relationships must persist exactly.
 
 # Minimal Engine Interfaces
 
-```csharp
-interface IRelationship
-{
-    int Trust { get; }
-    int Respect { get; }
-    int Fear { get; }
-    int Suspicion { get; }
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
+## Service contract
+
+```csharp
 interface IRelationshipService
 {
-    IRelationship Get(string sourceId, string targetId);
-
-    void ApplyEvent(RelationshipEvent e);
+    RelationshipState GetRelationship(string actorId);
+    void ModifyMetric(string actorId, string metricId, float delta);
+    float GetMetric(string actorId, string metricId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class RelationshipState { float Trust; float Fear; float Respect; float Dependency; }
+interface IRelationship { string TargetActorId; RelationshipState State; }
+```
+
 
 # Recommended Internal Formula
 

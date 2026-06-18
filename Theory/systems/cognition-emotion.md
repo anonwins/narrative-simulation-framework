@@ -486,6 +486,29 @@ Excessive randomness
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IEmotionService
+{
+    EmotionState GetState(string emotionId);
+    void ApplyModifier(string emotionId, float delta);
+    float GetRollModifier(string facultyId);
+    void TickEmotionDecay();
+}
+```
+
+## Domain model
+
+```csharp
+class EmotionState { string EmotionId; float Intensity; float Stress; float Confidence; }
+```
+
 # Minimum Viable System
 
 For a large-scale narrative RPG:

@@ -735,33 +735,28 @@ Everything should survive reload.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface IChronicleServiceEntry
-{
-    string Id;
-    string Title;
-    EntryState State;
-}
-
-interface ITask
-{
-    List<ChronicleUpdate> Updates;
-}
-
-interface IChronicleServiceSection
-{
-    List<Lead> Leads;
-    List<Clue> Clues;
-    List<Question> Questions;
-}
-
 interface IChronicleService
 {
-    List<IChronicleEntry> Entries;
+    IReadOnlyList<ChronicleSection> GetSections();
+    IReadOnlyList<ChronicleEntry> GetEntries(string sectionId);
+    void RefreshProjection();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class ChronicleSection { string Id; string Title; }
+class ChronicleEntry { string Id; ChronicleEntryType Type; string Title; string Body; }
+enum ChronicleEntryType { Lead, Task, Clue }
+class ChronicleView { ChronicleSection[] Sections; }
+```
+
 
 # Most Important Insight
 

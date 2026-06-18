@@ -627,6 +627,36 @@ Info Flow
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IUIShell
+{
+    void BindDialoguePresenter(IDialoguePresenter presenter);
+    void BindChroniclePresenter(IChroniclePresenter presenter);
+    void BindBeliefView(IBeliefView beliefView);
+    void PushScreen(string screenId);
+    void PopScreen();
+}
+
+interface IDialoguePresenter { void Show(DialogueViewModel model); }
+interface IChroniclePresenter { void Show(ChronicleView model); }
+interface IBeliefView { void Show(BeliefViewModel model); }
+```
+
+## Domain model
+
+```csharp
+class DialogueViewModel { string Speaker; string Text; ChoiceViewModel[] Choices; }
+class ChoiceViewModel { string Id; string Label; bool Enabled; }
+class BeliefViewModel { string BeliefId; string Title; BeliefPhase Phase; }
+```
+
 # Minimum Viable System
 
 For An NSF-like RPG:

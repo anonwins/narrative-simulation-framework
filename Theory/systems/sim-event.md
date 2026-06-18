@@ -615,27 +615,26 @@ This helps maintain consistency across reloads.
 
 # Minimal Engine Interfaces
 
-```csharp id="c7x2rd"
-class SimEvent
-{
-    string Id;
-    string Type;
-    GameTime Timestamp;
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
-interface IEventHandler
-{
-    void Handle(SimEvent e, SimulationSnapshot state);
-}
+## Service contract
 
+```csharp
 interface IEventBus
 {
     void Publish(SimEvent e);
     void Subscribe(string eventType, IEventHandler handler);
+    void Unsubscribe(string eventType, IEventHandler handler);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class SimEvent { string Id; string Type; GameTime Timestamp; Dictionary<string, string> Payload; }
+interface IEventHandler { void Handle(SimEvent e, SimulationSnapshot state); }
+```
+
 
 # Most Important Insight
 

@@ -622,28 +622,31 @@ Availability
 
 # Minimal Engine Interfaces
 
-```csharp id="b2k9ja"
-interface IActor
-{
-    string Id;
-    string Name;
-    ActorState State;
-    RelationshipState Relationship;
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
-interface IActorMemory
-{
-    void Remember(SimEvent e);
-    bool Knows(string factId);
-}
+## Service contract
 
-interface IBehaviorProfile
+```csharp
+interface IActorService
 {
-    void Update(ActorContext context);
+    ActorState GetState(string actorId);
+    void SetState(string actorId, ActorState state);
+    bool KnowsFact(string actorId, string factId);
+    void RememberEvent(string actorId, SimEvent e);
+    string GetLocation(string actorId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class Actor { string Id; string Name; ActorState State; MemoryBank Memory; string LocationId; }
+class ActorDefinition { string Id; string Name; string DefaultFactionId; }
+class ActorState { ActorAvailability Availability; string MoodId; }
+class MemoryBank { void Remember(SimEvent e); bool Knows(string factId); }
+enum ActorAvailability { Idle, Talking, Unavailable, Hostile }
+```
+
 
 # Most Important Insight
 

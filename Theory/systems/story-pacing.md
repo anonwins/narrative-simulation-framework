@@ -523,6 +523,29 @@ thread-level aggregation
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IPacingService
+{
+    bool CanFireContent(string contentId);
+    void RegisterContentWindow(string contentId, PacingWindow window);
+    void TickPacing();
+}
+```
+
+## Domain model
+
+```csharp
+class PacingWindow { GameTime Earliest; GameTime Latest; int MaxFireCount; }
+class PacingState { Dictionary<string, int> FireCounts; }
+```
+
 # Minimum Viable System
 
 For a large-scale narrative RPG:

@@ -695,16 +695,23 @@ Failure state must persist.
 
 # Minimal Engine Interfaces
 
-Fail-forward is a **design pattern**, not a standalone service. Implementation uses:
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
 
 ```csharp
-// IRollService — failed rolls emit RollResult with alternate branch IDs
-// IDialogueService — loads failure/recovery dialogue nodes
-// IStoryStateService — sets story flags for failure state
-// IChronicleService — projects failure as chronicle entries (read-only)
+// Fail-forward is a design pattern — no I*Service.
+// Integration: IRollService emits failure branches; IDialogueService loads alternate nodes;
+// IStoryStateService advances flags on failure paths; IPacingService never hard-stops progression.
 ```
 
----
+## Domain model
+
+```csharp
+class FailForwardBranch { string RollId; string FailureNodeId; string RecoveryNodeId; }
+class FailForwardOutcome { bool HardStop; string AlternateContentId; }
+```
+
 
 # Relationship to Other Systems
 

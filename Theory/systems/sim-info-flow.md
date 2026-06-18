@@ -770,6 +770,28 @@ PropagationEdge
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IInfoFlowService
+{
+    void RecordPropagation(string factId, string fromActorId, string toActorId, GameTime at);
+    bool DidActorLearn(string actorId, string factId);
+    IReadOnlyList<InfoPropagation> GetHistory(string factId);
+}
+```
+
+## Domain model
+
+```csharp
+class InfoPropagation { string FactId; string FromActorId; string ToActorId; GameTime At; }
+```
+
 # Minimum Viable System
 
 For An NSF-Elysium-inspired RPG:

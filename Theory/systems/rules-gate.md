@@ -753,19 +753,26 @@ Gating results must persist.
 
 # Minimal Engine Interfaces
 
-```csharp id="cg52"
-interface IGateRule
-{
-    bool IsSatisfied(GameState state);
-}
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
 
+## Service contract
+
+```csharp
 interface IGateService
 {
-    bool CanAccess(string contentId);
+    bool IsAllowed(string gateId, GateContext context);
+    GateDenialReason GetDenialReason(string gateId, GateContext context);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class GateRule { string Id; Condition[] Conditions; string DenialMessageKey; }
+class GateContext { string ActorId; string LocationId; }
+enum GateDenialReason { None, FacultyTooLow, FlagMissing, FactMissing, ConductThreshold }
+```
+
 
 # Relationship to Other Systems
 

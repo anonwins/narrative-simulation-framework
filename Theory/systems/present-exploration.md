@@ -675,18 +675,26 @@ Exploration progress must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
 interface IExplorationService
 {
-    void EnterLocation(string id);
-
-    bool IsAreaUnlocked(string id);
-
-    void UnlockArea(string id);
+    bool CanEnter(string locationId);
+    void Enter(string locationId);
+    void Exit(string locationId);
+    string GetCurrentLocationId();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class ExplorationNode { string LocationId; string[] ConnectedLocationIds; }
+```
+
 
 # Relationship to Other Systems
 

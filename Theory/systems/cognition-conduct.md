@@ -550,18 +550,27 @@ Actor Recognition Flags
 
 # Minimal Engine Interfaces
 
-```csharp id="cop46"
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
 interface IConductService
 {
     int GetScore(string conductId);
-
-    void AddScore(string conductId, int amount);
-
-    bool HasConduct(string conductId);
+    void RecordAction(string conductId, int delta);
+    string GetDominantConductProfile();
+    IReadOnlyDictionary<string, int> GetAllScores();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class ConductScore { string ConductId; int Value; }
+class StandingScore { string StandingId; int Value; }
+```
+
 
 # Recommended Internal Flow
 

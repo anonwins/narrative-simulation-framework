@@ -678,27 +678,28 @@ Economic Flags
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
 interface IEconomyService
 {
-    int Money { get; }
-
-    bool CanAfford(int amount);
-
-    void AddMoney(int amount);
-
-    void RemoveMoney(int amount);
-}
-
-interface IVendor
-{
-    int GetBuyPrice(Item item);
-
-    int GetSellPrice(Item item);
+    int GetCurrency(string currencyId);
+    void AddCurrency(string currencyId, int amount);
+    bool TrySpend(string currencyId, int amount);
+    bool TryPurchase(string vendorId, string itemId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class VendorDefinition { string Id; VendorOffer[] Offers; }
+class VendorOffer { string ItemId; int Price; string CurrencyId; }
+interface IVendor { string Id; IReadOnlyList<VendorOffer> Offers; }
+```
+
 
 # Recommended Internal Loop
 

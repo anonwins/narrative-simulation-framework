@@ -868,25 +868,28 @@ Fact state must persist.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
 interface IFactService
 {
-    bool KnowsFact(
-        Entity entity,
-        string factId);
-
-    void LearnFact(
-        Entity entity,
-        string factId);
-
-    void ShareFact(
-        Entity source,
-        Entity target,
-        string factId);
+    void Register(FactRecord fact);
+    bool TryGet(string factId, out FactRecord fact);
+    void Revoke(string factId);
+    IReadOnlyList<FactRecord> GetAll();
+    bool IsActive(string factId);
 }
 ```
 
----
+## Domain model
+
+```csharp
+class FactRecord { string Id; string SubjectId; string Predicate; string Value; GameTime RegisteredAt; }
+class FactRegistry { void Index(FactRecord fact); bool TryGet(string id, out FactRecord fact); }
+```
+
 
 # Relationship to Other Systems
 

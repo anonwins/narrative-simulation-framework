@@ -646,37 +646,31 @@ Everything should be recoverable from data.
 
 # Minimal Engine Interfaces
 
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
 ```csharp
-interface IItem
+interface IInventoryService
 {
-    string Id;
-    string Name;
-    ItemType Type;
-}
-
-interface IEquipable
-{
-    Slot Slot;
-    Modifier[] Modifiers;
-}
-
-interface IConsumable
-{
-    Effect[] Effects;
-}
-
-interface ITool
-{
-    Capability[] Capabilities;
-}
-
-interface IVoiceSource
-{
-    DialogueLine[] Barks;
+    bool HasItem(string itemId);
+    void AddItem(string itemId, int quantity);
+    void RemoveItem(string itemId, int quantity);
+    void Equip(string itemId, string slotId);
+    void Unequip(string slotId);
+    IReadOnlyList<ItemModifier> GetEquippedModifiers();
 }
 ```
 
----
+## Domain model
+
+```csharp
+class ItemDefinition { string Id; string SlotId; ItemModifier[] Modifiers; }
+interface IItem { string Id; int Quantity; }
+interface IEquipable { string SlotId; }
+class ItemModifier { string FacultyId; int Delta; }
+```
+
 
 # Most Important Implementation Insight
 

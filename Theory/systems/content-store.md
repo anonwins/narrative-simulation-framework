@@ -943,6 +943,30 @@ Fail the build if critical issues exist.
 
 ---
 
+
+# Minimal Engine Interfaces
+
+> Service names from [Glossary](../terminology-glossary.md). Domain types are internal.
+
+## Service contract
+
+```csharp
+interface IContentStore
+{
+    T GetDefinition<T>(string id) where T : ContentDefinition;
+    bool TryGetDefinition<T>(string id, out T definition) where T : ContentDefinition;
+    IReadOnlyList<string> GetAllIds<T>() where T : ContentDefinition;
+}
+```
+
+## Domain model
+
+```csharp
+class ContentDefinition { string Id; string SchemaVersion; }
+class ContentRegistry { T Get<T>(string id); void Register<T>(T definition); }
+abstract class ContentDefinitionBase : ContentDefinition { }
+```
+
 # Minimum Viable System
 
 For An NSF-Elysium-inspired RPG:
