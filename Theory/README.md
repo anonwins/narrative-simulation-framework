@@ -56,8 +56,10 @@ Modular package—not a monolithic game project:
 | [terminology-glossary.md](terminology-glossary.md) | Canonical terms, API names, content ID prefixes (SSOT) |
 | [runtime-kernel.md](runtime-kernel.md) | Meta-guide: how all modules interact in the simulation loop |
 | [appendix-detective-noir-mapping.md](appendix-detective-noir-mapping.md) | Reference content pack: NSF API term → detective-noir instance (not framework requirements) |
+| [`systems/`](systems/) | Per-system specifications (37 files: cognition, sim, story, etc.) |
+| [`architecture/`](architecture/) | Pre-implementation architecture plans (design before code) |
 
-Individual system specs follow a common shape: **Purpose → Core Principle → Architecture → Integration → Minimum Viable System (where present) → Final Concept**. See [development-roadmap.md](development-roadmap.md) for MVP scope rules when a spec omits that section.
+Individual system specs in [`systems/`](systems/) follow a common shape: **Purpose → Core Principle → Architecture → Integration → Minimum Viable System (where present) → Final Concept**. See [development-roadmap.md](development-roadmap.md) for MVP scope rules when a spec omits that section.
 
 ---
 

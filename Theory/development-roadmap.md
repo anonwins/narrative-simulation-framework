@@ -39,7 +39,7 @@
 | Starting point | **Greenfield** — new **`NarrativeFramework/` Unity project** (separate repo recommended; Greywater in this repo is legacy and will be dropped). NSF API names from [terminology-glossary.md](terminology-glossary.md). |
 | Host project | **Dedicated NSF Unity 6000.4.10f1 project** with `Packages/NarrativeFramework/` as the only game code. Not co-installed with Greywater long-term. |
 | Finish line | **Framework + two games** — extractable UPM package, full docs, automated test suite, and two distinct sample content packs proving reusability. |
-| Spec source | 38 specs in this folder, coordinated by [runtime-kernel.md](runtime-kernel.md) simulation loop. |
+| Spec source | 37 specs in [`systems/`](systems/), coordinated by [runtime-kernel.md](runtime-kernel.md) simulation loop. |
 | Agent workflow | Each phase ends with **automated verification only** (compile + Edit Mode tests + batch setup script). No human playtesting until Phase 18. |
 | Side projects | Early: in-package **headless harness** (Edit Mode). Mid: **NoirSample** and **SciFiSample** as Unity package samples (`Samples~/`) in the NSF project. |
 
@@ -119,7 +119,7 @@ Do **not** require `setup-nsf-sample.ps1` before Phase 14.
 
 | Gap | Phase |
 |---|---|
-| Vitality / Morale pools in `cognition-faculty.md` not listed in Phase 3 deliverables | Add to Phase 3 |
+| Vitality / Morale pools in `systems/cognition-faculty.md` not listed in Phase 3 deliverables | Add to Phase 3 |
 | `IContentStore` vs `ContentRegistry` naming — both in glossary | Phase 2: `IContentStore` facade + internal registry |
 | Only 10/38 specs have MVP sections | Use roadmap deliverables as fallback (rule above) |
 
@@ -280,7 +280,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Simulation loop skeleton — the coordination layer everything else plugs into.
 
-**Spec refs:** [runtime-kernel.md](runtime-kernel.md), [sim-event.md](sim-event.md), [sim-fact.md](sim-fact.md) (MVP)
+**Spec refs:** [runtime-kernel.md](runtime-kernel.md), [sim-event.md](systems/sim-event.md), [sim-fact.md](systems/sim-fact.md) (MVP)
 
 **Deliverables:**
 - `ISimulationKernel`, `SimulationKernel` (tick phases: Facts, Interpretation, Social, Events, Gating, Content)
@@ -299,7 +299,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Data shapes and validation pipeline — all later systems are content-driven.
 
-**Spec refs:** [content-store.md](content-store.md), [content-pipeline.md](content-pipeline.md)
+**Spec refs:** [content-store.md](systems/content-store.md), [content-pipeline.md](systems/content-pipeline.md)
 
 **Deliverables:**
 - Base `*Definition` ScriptableObjects: `FacultyDefinition`, `ActorDefinition`, `BeliefDefinition`, `StoryFlagDefinition`, `GateRuleDefinition`, etc.
@@ -318,7 +318,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Playable stat layer — faculties as values + roll resolution.
 
-**Spec refs:** [cognition-faculty.md](cognition-faculty.md), [cognition-roll.md](cognition-roll.md)
+**Spec refs:** [cognition-faculty.md](systems/cognition-faculty.md), [cognition-roll.md](systems/cognition-roll.md)
 
 **Deliverables:**
 - `IFacultyService`, `FacultyState`, faculty groups, caps, modifiers, **Vitality / Morale** pools
@@ -326,7 +326,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 - `FacultyInterjection` hook interface (implementation in Phase 13)
 - Tests: DC math, passive vs active, repeatable recovery, gated lockout (mirror roll spec tables)
 
-**Exit criteria:** ≥25 tests; roll outcomes match spec examples in `cognition-roll.md`
+**Exit criteria:** ≥25 tests; roll outcomes match spec examples in `systems/cognition-roll.md`
 
 **Human:** None
 
@@ -336,7 +336,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Branching narrative execution + flag-driven progression.
 
-**Spec refs:** [story-dialogue.md](story-dialogue.md), [story-state.md](story-state.md)
+**Spec refs:** [story-dialogue.md](systems/story-dialogue.md), [story-state.md](systems/story-state.md)
 
 **Deliverables:**
 - `IDialogueService`, graph model (`DialogueNode`, conditions, actions)
@@ -354,7 +354,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Unified IF/THEN evaluation replacing scattered gate logic.
 
-**Spec refs:** [rules-engine.md](rules-engine.md), [rules-gate.md](rules-gate.md)
+**Spec refs:** [rules-engine.md](systems/rules-engine.md), [rules-gate.md](systems/rules-gate.md)
 
 **Deliverables:**
 - `IRuleEngine`, `Rule`, `Condition`, `Action` evaluators
@@ -372,7 +372,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** World model primitives.
 
-**Spec refs:** [sim-time.md](sim-time.md), [sim-location.md](sim-location.md), [sim-actor.md](sim-actor.md)
+**Spec refs:** [sim-time.md](systems/sim-time.md), [sim-location.md](systems/sim-location.md), [sim-actor.md](systems/sim-actor.md)
 
 **Deliverables:**
 - `ITimeService`, schedules, day phases
@@ -391,7 +391,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Relationships, factions, companions, ideology.
 
-**Spec refs:** [social-relationship.md](social-relationship.md), [social-faction.md](social-faction.md), [social-companion.md](social-companion.md), [social-ideology.md](social-ideology.md)
+**Spec refs:** [social-relationship.md](systems/social-relationship.md), [social-faction.md](systems/social-faction.md), [social-companion.md](systems/social-companion.md), [social-ideology.md](systems/social-ideology.md)
 
 **Deliverables:**
 - `IRelationshipService`, `IFactionService`, `ICompanionService`, `IIdeologyService`
@@ -409,7 +409,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Identity and mind simulation — NSF differentiators.
 
-**Spec refs:** [cognition-belief.md](cognition-belief.md), [cognition-conduct.md](cognition-conduct.md), [cognition-emotion.md](cognition-emotion.md)
+**Spec refs:** [cognition-belief.md](systems/cognition-belief.md), [cognition-conduct.md](systems/cognition-conduct.md), [cognition-emotion.md](systems/cognition-emotion.md)
 
 **Deliverables:**
 - `IBeliefService`, `BeliefPhase` (Discovered → Assimilating → Resolved → Forgotten)
@@ -428,7 +428,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Investigation record + reasoning engine (not a quest log).
 
-**Spec refs:** [ledger-chronicle.md](ledger-chronicle.md), [ledger-thread.md](ledger-thread.md)
+**Spec refs:** [ledger-chronicle.md](systems/ledger-chronicle.md), [ledger-thread.md](systems/ledger-thread.md)
 
 **Deliverables:**
 - `IChronicleService`, `ChronicleSection`, entry types (Lead, Task, Clue)
@@ -446,7 +446,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Long-horizon simulation and save/load.
 
-**Spec refs:** [sim-info-flow.md](sim-info-flow.md), [sim-economy.md](sim-economy.md), [sim-persistence.md](sim-persistence.md)
+**Spec refs:** [sim-info-flow.md](systems/sim-info-flow.md), [sim-economy.md](systems/sim-economy.md), [sim-persistence.md](systems/sim-persistence.md)
 
 **Deliverables:**
 - `IInfoFlowService` (who knows what, when)
@@ -464,7 +464,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Narration orchestration and ending synthesis.
 
-**Spec refs:** [story-voice.md](story-voice.md), [story-pacing.md](story-pacing.md), [story-outcome.md](story-outcome.md), [story-fail-forward.md](story-fail-forward.md)
+**Spec refs:** [story-voice.md](systems/story-voice.md), [story-pacing.md](systems/story-pacing.md), [story-outcome.md](systems/story-outcome.md), [story-fail-forward.md](systems/story-fail-forward.md)
 
 **Deliverables:**
 - `IVoiceService` (narrator, faculty, environmental channels)
@@ -483,7 +483,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Authoring pipeline and item/faculty modifiers.
 
-**Spec refs:** [content-script.md](content-script.md), [content-locale.md](content-locale.md), [content-inventory.md](content-inventory.md)
+**Spec refs:** [content-script.md](systems/content-script.md), [content-locale.md](systems/content-locale.md), [content-inventory.md](systems/content-inventory.md)
 
 **Deliverables:**
 - `ScriptCompiler` — MVP subset of NSF Script (dialogue refs, flag sets, roll nodes)
@@ -501,7 +501,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** UI/interaction/audio hooks — still testable without human eyes.
 
-**Spec refs:** [present-ui.md](present-ui.md), [present-interaction.md](present-interaction.md), [present-discovery.md](present-discovery.md), [present-exploration.md](present-exploration.md), [present-audio.md](present-audio.md)
+**Spec refs:** [present-ui.md](systems/present-ui.md), [present-interaction.md](systems/present-interaction.md), [present-discovery.md](systems/present-discovery.md), [present-exploration.md](systems/present-exploration.md), [present-audio.md](systems/present-audio.md)
 
 **Deliverables:**
 - `IUIShell`, presenter interfaces (`IDialoguePresenter`, `IChroniclePresenter`, `IBeliefView`)

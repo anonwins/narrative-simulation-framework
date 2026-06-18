@@ -23,57 +23,57 @@
 | Module | Prefix | Responsibility |
 |---|---|---|
 | **Runtime** | `runtime-` | Kernel, tick loop, simulation coordination |
-| **Cognition** | `cognition-` | Player mind: faculties, beliefs, conduct, emotion, rolls |
-| **Social** | `social-` | Relationships, factions, companions, ideology |
-| **Simulation** | `sim-` | World model: actors, time, locations, events, facts, economy, persistence |
-| **Story** | `story-` | Dialogue, voice, story state/flags, pacing, outcomes, fail-forward |
-| **Ledger** | `ledger-` | Chronicle (player record) + Thread (structured inquiry) |
-| **Rules** | `rules-` | Rule engine, gates |
-| **Content** | `content-` | Store, script DSL, pipeline, locale, inventory |
-| **Presentation** | `present-` | UI, audio, exploration, interaction, discovery |
+| **Cognition** | `systems/cognition-` | Player mind: faculties, beliefs, conduct, emotion, rolls |
+| **Social** | `systems/social-` | Relationships, factions, companions, ideology |
+| **Simulation** | `systems/sim-` | World model: actors, time, locations, events, facts, economy, persistence |
+| **Story** | `systems/story-` | Dialogue, voice, story state/flags, pacing, outcomes, fail-forward |
+| **Ledger** | `systems/ledger-` | Chronicle (player record) + Thread (structured inquiry) |
+| **Rules** | `systems/rules-` | Rule engine, gates |
+| **Content** | `systems/content-` | Store, script DSL, pipeline, locale, inventory |
+| **Presentation** | `systems/present-` | UI, audio, exploration, interaction, discovery |
 
 ### Module index (spec → primary service)
 
 | Module | Spec | Primary API |
 |---|---|---|
 | Runtime | `runtime-kernel.md` | `ISimulationKernel` |
-| Cognition | `cognition-faculty.md` | `IFacultyService` |
-| Cognition | `cognition-belief.md` | `IBeliefService` |
-| Cognition | `cognition-conduct.md` | `IConductService` |
-| Cognition | `cognition-emotion.md` | `IEmotionService` |
-| Cognition | `cognition-roll.md` | `IRollService` |
-| Social | `social-relationship.md` | `IRelationshipService` |
-| Social | `social-faction.md` | `IFactionService` |
-| Social | `social-companion.md` | `ICompanionService` |
-| Social | `social-ideology.md` | `IIdeologyService` |
-| Simulation | `sim-actor.md` | `IActorService` |
-| Simulation | `sim-time.md` | `ITimeService` |
-| Simulation | `sim-location.md` | `ILocationService` |
-| Simulation | `sim-event.md` | `IEventBus` |
-| Simulation | `sim-fact.md` | `IFactService` |
-| Simulation | `sim-info-flow.md` | `IInfoFlowService` |
-| Simulation | `sim-economy.md` | `IEconomyService` |
-| Simulation | `sim-persistence.md` | `IPersistenceService` |
-| Story | `story-dialogue.md` | `IDialogueService` |
-| Story | `story-voice.md` | `IVoiceService` |
-| Story | `story-state.md` | `IStoryStateService` |
-| Story | `story-pacing.md` | `IPacingService` |
-| Story | `story-outcome.md` | `IOutcomeService` |
-| Story | `story-fail-forward.md` | (design pattern) |
-| Ledger | `ledger-chronicle.md` | `IChronicleService` |
-| Ledger | `ledger-thread.md` | `IThreadService`, `ThreadEngine` |
-| Rules | `rules-engine.md` | `IRuleEngine` |
-| Rules | `rules-gate.md` | `IGateService` |
-| Content | `content-store.md` | `IContentStore` |
-| Content | `content-script.md` | `ScriptCompiler` |
-| Content | `content-pipeline.md` | `IContentPipeline` |
-| Content | `content-locale.md` | `ILocaleService` |
-| Content | `content-inventory.md` | `IInventoryService` |
-| Presentation | `present-ui.md` | `IUIShell` |
-| Presentation | `present-audio.md` | `IAudioNarrativeService` |
-| Presentation | `present-exploration.md` | `IExplorationService` |
-| Presentation | `present-interaction.md` | `IInteractionService` |
-| Presentation | `present-discovery.md` | `IDiscoveryService` |
+| Cognition | `systems/cognition-faculty.md` | `IFacultyService` |
+| Cognition | `systems/cognition-belief.md` | `IBeliefService` |
+| Cognition | `systems/cognition-conduct.md` | `IConductService` |
+| Cognition | `systems/cognition-emotion.md` | `IEmotionService` |
+| Cognition | `systems/cognition-roll.md` | `IRollService` |
+| Social | `systems/social-relationship.md` | `IRelationshipService` |
+| Social | `systems/social-faction.md` | `IFactionService` |
+| Social | `systems/social-companion.md` | `ICompanionService` |
+| Social | `systems/social-ideology.md` | `IIdeologyService` |
+| Simulation | `systems/sim-actor.md` | `IActorService` |
+| Simulation | `systems/sim-time.md` | `ITimeService` |
+| Simulation | `systems/sim-location.md` | `ILocationService` |
+| Simulation | `systems/sim-event.md` | `IEventBus` |
+| Simulation | `systems/sim-fact.md` | `IFactService` |
+| Simulation | `systems/sim-info-flow.md` | `IInfoFlowService` |
+| Simulation | `systems/sim-economy.md` | `IEconomyService` |
+| Simulation | `systems/sim-persistence.md` | `IPersistenceService` |
+| Story | `systems/story-dialogue.md` | `IDialogueService` |
+| Story | `systems/story-voice.md` | `IVoiceService` |
+| Story | `systems/story-state.md` | `IStoryStateService` |
+| Story | `systems/story-pacing.md` | `IPacingService` |
+| Story | `systems/story-outcome.md` | `IOutcomeService` |
+| Story | `systems/story-fail-forward.md` | (design pattern) |
+| Ledger | `systems/ledger-chronicle.md` | `IChronicleService` |
+| Ledger | `systems/ledger-thread.md` | `IThreadService`, `ThreadEngine` |
+| Rules | `systems/rules-engine.md` | `IRuleEngine` |
+| Rules | `systems/rules-gate.md` | `IGateService` |
+| Content | `systems/content-store.md` | `IContentStore` |
+| Content | `systems/content-script.md` | `ScriptCompiler` |
+| Content | `systems/content-pipeline.md` | `IContentPipeline` |
+| Content | `systems/content-locale.md` | `ILocaleService` |
+| Content | `systems/content-inventory.md` | `IInventoryService` |
+| Presentation | `systems/present-ui.md` | `IUIShell` |
+| Presentation | `systems/present-audio.md` | `IAudioNarrativeService` |
+| Presentation | `systems/present-exploration.md` | `IExplorationService` |
+| Presentation | `systems/present-interaction.md` | `IInteractionService` |
+| Presentation | `systems/present-discovery.md` | `IDiscoveryService` |
 
 ---
 
