@@ -123,6 +123,7 @@ namespace NarrativeFramework.Runtime.Host
         public NsfSessionMode Mode;  // HeadlessTest, EditorPlay, PlayerBuild
         public bool RegisterPresentationServices;
         public bool RegisterDebugSink;
+        public NsfModuleSet EnabledModules;  // `[FULL]` — default All; subset for games that omit modules
     }
 
     enum NsfSessionMode { HeadlessTest, EditorPlay, PlayerBuild }
@@ -151,6 +152,8 @@ public sealed class NsfGameHost : MonoBehaviour
     void OnDestroy() => _session.Dispose();
 }
 ```
+
+Games extend bootstrap after `NsfSession.Create`: register game-owned services on `_session.Registry` before the first tick. See [game-extensions.md](game-extensions.md).
 
 ---
 
@@ -245,7 +248,7 @@ Player build must not register `IDebugTraceSink` unless `DEVELOPMENT_BUILD` and 
 
 ## Out of scope — deliberately not discussed yet
 
-These are **game or post-v1 concerns**, not NSF core. Documented here to avoid silent assumptions.
+These are **game or post-v1 NSF package concerns**, not reasons games cannot add their own systems. Game-owned mechanics use [game-extensions.md](game-extensions.md). Documented here to avoid silent assumptions.
 
 | Topic | Status | Notes |
 |---|---|---|
@@ -262,10 +265,10 @@ These are **game or post-v1 concerns**, not NSF core. Documented here to avoid s
 | Localization workflow | Partial | `ILocaleService`; Noir **fr** + en; missing key → **English fallback** (S-03, S-04) |
 | Performance SLAs | Phase 17 | Tick phase timing budgets |
 | Visual novel mode vs walkable 3D | Game presentation | Same NSF session |
-| Combat / real-time action | Out of scope unless new module | Not target genre |
+| Combat / real-time action | **Game-owned** (not NSF v1) | Peer module + adapter into facts/flags/events; promote to NSF module if reusable — [game-extensions.md](game-extensions.md) |
 | Legal / ratings / store pages | Phase 18 | Human gate |
 
-When any item moves in scope, add a glossary entry + architecture doc — do not bolt onto core modules silently.
+When a topic moves from game-owned to NSF core, add a glossary entry + `systems/` spec + architecture doc — do not bolt onto core modules silently. Game-owned features use [game-extensions.md](game-extensions.md).
 
 ---
 

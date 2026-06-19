@@ -13,7 +13,7 @@
 
 ### Why a dedicated Unity package
 
-NSF targets **multiple games** (NoirSample, SciFiSample, future content packs). A UPM package under `Packages/NarrativeFramework/` keeps framework code isolated from game assets, enables semver, and prevents genre logic leaking into core modules.
+NSF targets **multiple games** (NoirSample, SciFiSample, future titles). A UPM package under `Packages/NarrativeFramework/` keeps narrative simulation code isolated from game assets and game-owned modules, enables semver, and prevents genre logic leaking into core modules. Games reference NSF from separate assemblies — see [game-extensions.md](game-extensions.md).
 
 ### Why asmdefs are decided upfront
 

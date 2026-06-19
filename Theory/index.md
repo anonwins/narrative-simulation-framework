@@ -6,6 +6,8 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 - [Terminology glossary](terminology-glossary.md) (SSOT)
 - [Development roadmap](development-roadmap.md) (implementation phases)
 - [Decisions log](decisions-log.md) (locked architecture choices)
+- [Feature list](feature-list.md) (what NSF’s narrative stack enables)
+- [Game extensions](architecture/game-extensions.md) (adding mechanics NSF does not ship)
 - [Simulation kernel meta-guide](runtime-kernel.md)
 
 - [Architecture index](architecture/index.md) (implementation blueprints)
@@ -150,10 +152,10 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 
 ---
 
-## Content pack boundary
+## Responsibility boundaries
 
-**Framework:** simulation mechanics, interfaces, data shapes, rule evaluation, gating, pacing, roll resolution, UI system architecture.
+**NSF:** narrative simulation mechanics, `I*Service` contracts, data shapes, rule evaluation, gating, pacing, roll resolution, registry/events/persistence infrastructure, presenter architecture.
 
-**Content pack:** character and faction names, faculty definitions, conduct and ideology IDs, dialogue/belief/chronicle content, UI skin labels, setting-specific narrative.
+**Game:** content (characters, dialogue, beliefs, threads), presentation skin, and **game-owned modules** (combat, crafting, genre-specific loops) integrated via [architecture/game-extensions.md](architecture/game-extensions.md).
 
 See [README.md](README.md) for the three-layer model and Unity package layout.

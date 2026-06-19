@@ -6,7 +6,7 @@
 - Module architecture **Deferred decisions** sections point here; all locked.
 - New decisions append a dated row; superseded rows move to § Superseded.
 
-Last updated: 2026-06-18 (batch 4 — doc sync sweep)
+Last updated: 2026-06-19 (composable library model — NSF-H09, game-extensions)
 
 ---
 
@@ -107,6 +107,7 @@ Policy and creative-adjacent choices that belong to the **NSF package**, not sam
 | NSF-H06 | **NSF package art** | **Zero character art in package** — primitives/placeholder materials OK in sample wiring docs; commercial art lives in sample repos |
 | NSF-H07 | **Voice casting** | Not an NSF fork — content `VoiceDefinition` + `VoiceProfileId`; TTS profiles sufficient for framework proof (A-07) |
 | NSF-H08 | **Localization tooling** | `ILocaleService` + JSON/string tables + pipeline validation; external CAT tool integration optional post-1.0, not a blocker |
+| NSF-H09 | **Composable library model** | Games compose NSF modules + game-owned modules; `NsfSession` is a convenience preset, not the only entry point; game features integrate via [game-extensions.md](architecture/game-extensions.md) (registry, `IStatefulService`, events, adapters) — NSF does not cap game mechanics it does not ship |
 
 ---
 

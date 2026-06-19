@@ -201,8 +201,11 @@ Format: `{prefix}_{descriptor}` (snake_case). No setting nouns.
 
 | Term | Definition |
 |---|---|
-| **NSF** | Narrative Simulation Framework — reusable narrative simulation layer for Unity. |
-| **Content pack** | Game built on NSF: scripts + data + assets + config. |
+| **NSF** | Narrative Simulation Framework — composable narrative simulation **library** for Unity (not the whole game). |
+| **Content pack** | Game content on NSF: scripts + data + assets + config. |
+| **Game-owned module** | Game assembly service (e.g. combat) registered in `INarrativeServiceRegistry` alongside NSF services — see [game-extensions.md](architecture/game-extensions.md). |
+| **Narrative adapter** | Thin game code that writes game outcomes into NSF primitives (facts, flags, events, rolls). |
+| **Composition root** | Bootstrap that builds the service registry — `NsfSession` (preset) or game-owned manual wiring. |
 | **Player character** | Protagonist entity; role is content-defined. |
 
 ### Cognition
@@ -323,6 +326,7 @@ Task / Lead / Clue — chronicle entry types; projected from thread + story stat
 | Player journal grouping (“the homicide storyline”) | **Chronicle section** / `section_*` | Thread object, story beat |
 | “Talk to X”, “find the key” in the chronicle UI | **Task** / **Lead** / **Clue** | Story beat (unless authoring a beat transition) |
 | Player-facing label “Quests” in a detective game | **Content pack UI skin** | Framework API name |
+| Game combat, crafting, genre loops | **Game-owned module** + adapter | NSF core module (unless promoted) |
 | Atomic world truth | **Fact** / `IFactService` | Story flag, chronicle text |
 
 **Actor vs Companion:** Actor is the simulation entity type; Companion is the social subsystem wrapping a partner `ActorId`.

@@ -38,7 +38,7 @@
 |---|---|
 | Starting point | **Greenfield** — new **`NarrativeFramework/` Unity project** (separate repo recommended; Greywater in this repo is legacy and will be dropped). NSF API names from [terminology-glossary.md](terminology-glossary.md). |
 | Host project | **Dedicated NSF Unity 6000.4.10f1 project** with `Packages/NarrativeFramework/` as the only game code. Not co-installed with Greywater long-term. |
-| Finish line | **Framework + two games** — extractable UPM package, full docs, automated test suite, and two distinct sample content packs proving reusability. |
+| Finish line | **Library + two sample games** — extractable UPM package, full docs, automated test suite, and two sample repos proving the full narrative stack; games may add modules per [architecture/game-extensions.md](architecture/game-extensions.md). |
 | Spec source | 37 specs in [`systems/`](systems/), coordinated by [runtime-kernel.md](runtime-kernel.md) simulation loop. |
 | Agent workflow | Each phase ends with **automated verification only** (compile + Edit Mode tests + batch setup script). No human playtesting until Phase 18. |
 | Side projects | Early: in-package **FrameworkTestPack** (Edit Mode). Phase 15–16: **NoirSample** and **SciFiSample** as **sibling repos** referencing NSF package — see [decisions-log.md](decisions-log.md) P-07. |

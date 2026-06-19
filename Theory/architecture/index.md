@@ -7,7 +7,7 @@
 - **Build order:** [development-roadmap.md](../development-roadmap.md)
 - **Loop model:** [runtime-kernel.md](../runtime-kernel.md) (spec)
 
-Start here → [contracts.md](contracts.md) · [foundation.md](foundation.md) · [unity-host.md](unity-host.md) · [data-model.md](data-model.md)
+Start here → [contracts.md](contracts.md) · [foundation.md](foundation.md) · [unity-host.md](unity-host.md) · [game-extensions.md](game-extensions.md) · [data-model.md](data-model.md)
 
 ---
 
@@ -79,7 +79,7 @@ We **are** still in thorough planning. These labels describe **when** a decision
 ## Dependency layers (authoring order)
 
 ```text
-Layer 0  index, contracts, foundation, unity-host, data-model
+Layer 0  index, contracts, foundation, unity-host, game-extensions, data-model
 Layer 1  runtime-kernel, sim-event, sim-fact
 Layer 2  content-store, content-pipeline, content-script, content-locale, content-inventory
 Layer 3  cognition-faculty, cognition-roll
@@ -101,6 +101,7 @@ Layer 8  present-*, debug, editor, integration, samples
 | [data-model.md](data-model.md) | 0–2 | done |
 | [runtime-kernel.md](runtime-kernel.md) | 1 | done |
 | [unity-host.md](unity-host.md) | 0–14 | done |
+| [game-extensions.md](game-extensions.md) | 0+ | done |
 | [debug.md](debug.md) | 14 | done |
 | [editor.md](editor.md) | 2, 14 | done |
 | [integration.md](integration.md) | 14 | done |
@@ -169,7 +170,7 @@ See [runtime-kernel.md](runtime-kernel.md) for orchestration detail.
 
 ## Verification checklist (Phase B complete)
 
-- [x] 47 files exist under `architecture/`
+- [x] 48 files exist under `architecture/`
 - [x] [contracts.md](contracts.md) defines all public APIs
 - [x] Every `systems/` file has matching architecture doc
 - [x] Kernel tick phase assigned for every event-emitting module
