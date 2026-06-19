@@ -52,7 +52,7 @@
 | Doc gate | Status |
 |---|---|
 | Phase A — spec foundation | **done** |
-| Phase B — [architecture/](architecture/) (47 files) | **done** — [architecture/index.md](architecture/index.md); Unity host: [architecture/unity-host.md](architecture/unity-host.md) |
+| Phase B — [architecture/](architecture/) (48 files) | **done** — [architecture/index.md](architecture/index.md); Unity host: [architecture/unity-host.md](architecture/unity-host.md) |
 
 ### Completed prep (Phase −1 + Phase A doc foundation)
 
@@ -353,7 +353,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 **Deliverables:**
 - `IDialogueService`, graph model (`DialogueNode`, conditions, actions)
 - `IStoryStateService`, `StoryFlag`, `StoryFlagRegistry`, beat/stage machine
-- Condition/action registries extensible by content packs
+- Condition/action registries extensible by games (content packs or game assemblies)
 - Tests: graph traversal, flag mutation, branch gating, fail branch still advances state
 
 **Exit criteria:** ≥20 tests; simulate 3-node graph entirely in Edit Mode

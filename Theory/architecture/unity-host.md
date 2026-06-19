@@ -246,7 +246,7 @@ Player build must not register `IDebugTraceSink` unless `DEVELOPMENT_BUILD` and 
 
 ---
 
-## Out of scope — deliberately not discussed yet
+## Platform boundaries — NSF package vs game-owned
 
 These are **game or post-v1 NSF package concerns**, not reasons games cannot add their own systems. Game-owned mechanics use [game-extensions.md](game-extensions.md). Documented here to avoid silent assumptions.
 

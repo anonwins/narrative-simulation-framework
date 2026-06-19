@@ -70,7 +70,7 @@ We **are** still in thorough planning. These labels describe **when** a decision
 | **MVP scope** | Must ship for the roadmap phase listed in that doc. Fully specified in architecture + specs. | **Decided** — implement in that phase |
 | **`[FULL]`** | Same module, **later implementation phase** — **not** a scope cut. Must still match [`systems/`](../systems/) by the owning phase. | **Phased delivery** — see [decisions-log.md](../decisions-log.md) § Product completeness |
 | **Deferred decisions** | Resolved in [decisions-log.md](../decisions-log.md). | **Closed — zero NSF deferrals** |
-| **Out of scope** ([unity-host.md](unity-host.md)) | Never NSF core (multiplayer, store pages, cloud upload UI). | **Decided exclusion** |
+| **Out of scope** ([unity-host.md](unity-host.md)) | Never NSF *package* core (multiplayer, store pages, cloud upload UI). Game-owned genre mechanics → [game-extensions.md](game-extensions.md). | **Decided exclusion** |
 
 **Product rule:** [`systems/`](../systems/) specs are the capability floor. [`decisions-log.md`](../decisions-log.md) locks **all** NSF forks. Game polish → decisions log § Game-scoped.
 
