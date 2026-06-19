@@ -4,7 +4,7 @@ Design specifications for a **reusable narrative simulation layer** for Unity. N
 
 **Games = Framework + Content Pack.** Each game adds content, configuration, and thin game scripts—not new core systems.
 
-Start here → [System Catalog](index.md) · [Terminology Glossary](terminology-glossary.md)
+Start here → [System Catalog](index.md) · [Terminology Glossary](terminology-glossary.md) · [Decisions Log](decisions-log.md)
 
 ---
 
@@ -12,15 +12,16 @@ Start here → [System Catalog](index.md) · [Terminology Glossary](terminology-
 
 ```text
 Layer 1 — Unity (base engine)
-  Rendering, physics, animation, audio playback, input
+  Rendering (2D/3D — game choice), physics, animation, audio playback, input, scenes
 
 Layer 2 — NSF (this framework)
   World simulation, actor cognition, dialogue logic, emotional systems,
-  rule engine, pacing, content system
+  rule engine, pacing, content system — dimension-agnostic; see architecture/unity-host.md
 
 Layer 3 — Games (content packs)
-  inquiry noir · sci-fi investigation · political thriller · …
-  Each = NSF + scripts + data + assets
+  inquiry noir (3D sample) · sci-fi investigation (2D sample) · …
+  Each = NSF + scripts + data + assets + visual presentation (2D or 3D)
+  NoirSample + SciFiSample together showcase all NSF features — see architecture/samples.md
 ```
 
 NSF is a **simulation runtime that generates games from content**. Unity handles engine concerns; NSF handles narrative simulation; games supply setting, characters, and authored narrative.
@@ -54,15 +55,17 @@ Modular package—not a monolithic game project:
 | [development-roadmap.md](development-roadmap.md) | Implementation roadmap: zero → production (agent phases + human gates) |
 | [index.md](index.md) | Catalog of all 40 NSF systems with module tags and file links |
 | [terminology-glossary.md](terminology-glossary.md) | Canonical terms, API names, content ID prefixes (SSOT) |
+| [decisions-log.md](decisions-log.md) | Locked product/architecture choices (replaces “deferred” forks) |
 | [runtime-kernel.md](runtime-kernel.md) | Meta-guide: how all modules interact in the simulation loop |
 | [appendix-detective-noir-mapping.md](appendix-detective-noir-mapping.md) | Reference content pack: NSF API term → detective-noir instance (not framework requirements) |
 | [`systems/`](systems/) | Per-system specifications (37 files: cognition, sim, story, etc.) |
-| [`architecture/`](architecture/) | Pre-implementation architecture plans (populated after Phase A doc foundation) |
+| [`architecture/`](architecture/) | Implementation blueprints — start at [architecture/index.md](architecture/index.md); Unity host & platform boundaries: [architecture/unity-host.md](architecture/unity-host.md) |
 
 ## Documentation layers
 
 ```text
 terminology-glossary.md     SSOT — terms, API names, contracts catalog
+decisions-log.md            Locked forks — Addressables, samples, TTS, pacing, …
 systems/*.md                Per-system behavior specs (Service contract + Domain model)
 architecture/*.md           Implementation blueprints (after Phase A; before code)
 development-roadmap.md      Phased build order and deliverables
@@ -90,6 +93,7 @@ Individual system specs in [`systems/`](systems/) follow: **Purpose → Core Pri
 ```text
 GameProject/
     Packages/NarrativeFramework/    ← NSF package
+    ../NoirSample/ or ../SciFiSample/   ← sibling sample repos (Phase 15–16)
     Assets/ContentPack/             ← your game's data + assets
         Actors, factions, dialogue graphs, beliefs, threads
     Assets/GameScripts/             ← thin game-specific hooks only

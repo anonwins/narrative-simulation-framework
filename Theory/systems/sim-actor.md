@@ -632,7 +632,7 @@ interface IActorService
     ActorState GetState(string actorId);
     void SetState(string actorId, ActorState state);
     bool KnowsFact(string actorId, string factId);
-    void RememberEvent(string actorId, SimEvent e);
+    void RememberEvent(string actorId, SimEventBase e);
     string GetLocation(string actorId);
 }
 ```
@@ -643,7 +643,7 @@ interface IActorService
 class Actor { string Id; string Name; ActorState State; MemoryBank Memory; string LocationId; }
 class ActorDefinition { string Id; string Name; string DefaultFactionId; }
 class ActorState { ActorAvailability Availability; string MoodId; }
-class MemoryBank { void Remember(SimEvent e); bool Knows(string factId); }
+class MemoryBank { void Remember(SimEventBase e); bool Knows(string factId); }
 enum ActorAvailability { Idle, Talking, Unavailable, Hostile }
 ```
 

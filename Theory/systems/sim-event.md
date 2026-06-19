@@ -68,16 +68,17 @@ EventBus
 Every event should be a structured object.
 
 ```csharp id="j8q4tr"
-class SimEvent
+abstract class SimEventBase
 {
     string Id;
-    string Type;
+    string EventType;
     string SourceId;
     string TargetId;
     GameTime Timestamp;
-    Dictionary<string, object> Payload;
 }
 ```
+
+Concrete event types carry typed fields (e.g. `FactRegisteredEvent.FactId`). See [decisions-log.md](../decisions-log.md) EVT-01.
 
 The event is not just a string label.
 
@@ -622,17 +623,21 @@ This helps maintain consistency across reloads.
 ```csharp
 interface IEventBus
 {
-    void Publish(SimEvent e);
-    void Subscribe(string eventType, IEventHandler handler);
-    void Unsubscribe(string eventType, IEventHandler handler);
+    void Publish(SimEventBase e);
+    void PublishImmediate(SimEventBase e, SimulationSnapshot snapshot);
+    void Subscribe<T>(IEventHandler<T> handler) where T : SimEventBase;
+    void Unsubscribe<T>(IEventHandler<T> handler) where T : SimEventBase;
+    void Flush(SimulationSnapshot snapshot);
 }
 ```
+
+> **Implementation:** Typed hierarchy from Phase 1 — [decisions-log.md](../decisions-log.md) EVT-01. Deferred batch + priority ordering EVT-03, EVT-05.
 
 ## Domain model
 
 ```csharp
-class SimEvent { string Id; string Type; GameTime Timestamp; Dictionary<string, string> Payload; }
-interface IEventHandler { void Handle(SimEvent e, SimulationSnapshot state); }
+abstract class SimEventBase { string Id; GameTime Timestamp; abstract string EventType { get; } }
+interface IEventHandler<in T> where T : SimEventBase { void Handle(T e, SimulationSnapshot state); }
 ```
 
 

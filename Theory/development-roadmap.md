@@ -41,20 +41,18 @@
 | Finish line | **Framework + two games** — extractable UPM package, full docs, automated test suite, and two distinct sample content packs proving reusability. |
 | Spec source | 37 specs in [`systems/`](systems/), coordinated by [runtime-kernel.md](runtime-kernel.md) simulation loop. |
 | Agent workflow | Each phase ends with **automated verification only** (compile + Edit Mode tests + batch setup script). No human playtesting until Phase 18. |
-| Side projects | Early: in-package **headless harness** (Edit Mode). Mid: **NoirSample** and **SciFiSample** as Unity package samples (`Samples~/`) in the NSF project. |
+| Side projects | Early: in-package **FrameworkTestPack** (Edit Mode). Phase 15–16: **NoirSample** and **SciFiSample** as **sibling repos** referencing NSF package — see [decisions-log.md](decisions-log.md) P-07. |
 
 ---
 
 ## Execution readiness (prep audit)
 
-**Verdict: Ready to start Phase 0** after Phase A doc foundation is complete and dedicated NSF Unity project exists.
+**Verdict: Ready to start Phase 0 code** — Phase A (spec foundation) and Phase B ([architecture/](architecture/) blueprints) complete. Create dedicated NSF Unity project next.
 
-### Doc foundation gate (Phase A — before Phase 0 code)
-
-- [x] Glossary contracts catalog complete
-- [x] All 37 systems specs have aligned `Minimal Engine Interfaces`
-- [x] runtime-kernel tick phase map present
-- [x] No broken Theory cross-links
+| Doc gate | Status |
+|---|---|
+| Phase A — spec foundation | **done** |
+| Phase B — [architecture/](architecture/) (47 files) | **done** — [architecture/index.md](architecture/index.md); Unity host: [architecture/unity-host.md](architecture/unity-host.md) |
 
 ### Completed prep (Phase −1 + Phase A doc foundation)
 
@@ -92,6 +90,7 @@ Phase 0 stubs all `I*` rows; engines/compiler are null implementations or deferr
 ```text
 Packages/NarrativeFramework/
   Runtime/          NarrativeFramework.Runtime.asmdef
+    Host/           NsfSession, NsfTickDriver — see architecture/unity-host.md
   Content/          NarrativeFramework.Content.asmdef      → Runtime
   Rules/            NarrativeFramework.Rules.asmdef        → Runtime, Content
   Simulation/       NarrativeFramework.Simulation.asmdef   → Runtime, Content
@@ -174,7 +173,7 @@ flowchart LR
 
 **Agent does:** C# implementation, ScriptableObject schemas, generated sample scenes, placeholder narrative text, Edit Mode + integration tests, batch setup scripts (mirror [`../setup-project.ps1`](../setup-project.ps1) pattern), API docs sync.
 
-**Human does (deferred):** final art/audio/voice direction, narrative rewrite for shipping quality, manual playthrough QA, performance on target hardware, Asset Store / distribution, legal, optional Greywater port.
+**Human does (sample repos, post-NSF-1.0):** literary polish, commercial art/audio, manual sample playthrough, store pages — see [decisions-log.md](decisions-log.md) § Game-scoped polish. **NSF framework decisions: zero deferrals.**
 
 ---
 
@@ -239,8 +238,9 @@ Packages/NarrativeFramework/
   Runtime/ Cognition/ Social/ Simulation/ Story/
   Ledger/ Rules/ Content/ Presentation/ Debug/
 Packages/NarrativeFramework.Tests/   # Edit Mode only until Phase 13
-Samples~/NoirSample/               # Phase 15
-Samples~/SciFiSample/              # Phase 16
+Samples~/FrameworkTestPack/        # Phase 2+ in-package test fixtures (Addressables)
+../NoirSample/                     # Phase 15 sibling repo (3D + uGUI)
+../SciFiSample/                    # Phase 16 sibling repo (2D + UITK)
 ```
 
 **Per-phase deliverable checklist:**
@@ -270,10 +270,11 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Goal:** Empty compilable NSF package; all glossary service contracts declared; zero behavior.
 
-**Spec refs:** [terminology-glossary.md](terminology-glossary.md) module index, [runtime-kernel.md](runtime-kernel.md)
+**Spec refs:** [terminology-glossary.md](terminology-glossary.md) module index, [runtime-kernel.md](runtime-kernel.md), [architecture/unity-host.md](architecture/unity-host.md)
 
 **Deliverables:**
 - `Packages/NarrativeFramework/` with 9 module folders + `.asmdef` per module + root `NarrativeFramework.asmdef`
+- `Runtime/Host/` — `NsfSession` skeleton (pure C#, no `UnityEngine`); tick policy enum stub
 - `NarrativeFramework.Tests` assembly referencing all modules
 - `INarrativeServiceRegistry` + stub `Null*` implementations for every `I*Service` in glossary
 - `NsfVersion`, `NsfModuleIds` constants
@@ -293,7 +294,7 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 **Deliverables:**
 - `ISimulationKernel`, `SimulationKernel` (tick phases: Facts, Interpretation, Social, Events, Gating, Content)
-- `IEventBus`, `SimEvent`, typed event subscriptions
+- `IEventBus`, typed `SimEventBase` hierarchy, deferred queue + priority flush
 - `IFactService`, `FactRecord`, `FactRegistry` (atomic truth store)
 - `NarrativeServiceRegistry` (replaces ad-hoc service locator pattern)
 - Tests: tick ordering, event delivery, fact CRUD + persistence snapshot
@@ -313,9 +314,11 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 **Deliverables:**
 - Base `*Definition` ScriptableObjects: `FacultyDefinition`, `ActorDefinition`, `BeliefDefinition`, `StoryFlagDefinition`, `GateRuleDefinition`, etc.
 - `IContentStore`, `ContentRegistry` (ID → definition)
-- `IContentPipeline` validator (missing refs, invalid IDs, schema version)
+- `IContentPipeline` validator — **hard fail** on missing refs, invalid IDs, cycles ([decisions-log.md](decisions-log.md) CP-01)
+- **Addressables** groups for FrameworkTestPack — label `nsf_content_framework_test_pack` (P-03)
+- `ContentPackHandle.Load` resolves addressable manifest
 - Seed JSON import/export (Newtonsoft, already in manifest)
-- Agent-generated **FrameworkTestPack** minimal assets in `Samples~/FrameworkTestPack/` (not a game — data only)
+- Agent-generated **FrameworkTestPack** minimal assets (in-package Addressables group — data only)
 
 **Exit criteria:** Pipeline validates good pack, rejects broken pack; round-trip JSON test
 
@@ -550,9 +553,11 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 ## Phase 15 — Content Pack A: NoirSample (side project 1)
 
-**Goal:** First validation game — detective noir using [appendix-detective-noir-mapping.md](appendix-detective-noir-mapping.md) IDs only in content, zero noir logic in framework.
+**Goal:** First validation game — detective noir using [appendix-detective-noir-mapping.md](appendix-detective-noir-mapping.md) IDs only in content, zero noir logic in framework. **3D presentation** — walkable crime scenes.
 
-**Structure:** `Samples~/NoirSample/` or sibling repo `NoirSample/` referencing local NSF package.
+**Structure:** Sibling repo `NoirSample/` referencing local NSF package (3D + uGUI; relationship labels; **en + fr**).
+
+**Presentation (decided):** 3D — spatial exploration, world interactables, companion in scene. Primary showcase for 3D Presentation bridges.
 
 **Agent-authored content (placeholder quality OK):**
 - 1 primary `thread_main`, 1 `section_primary`
@@ -573,9 +578,11 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 ## Phase 16 — Content Pack B: SciFiSample (side project 2)
 
-**Goal:** Prove reusability — different genre, different faculty schema, different conduct axes.
+**Goal:** Prove reusability — different genre, different faculty schema, **2D presentation**. With NoirSample, **exercise every NSF module** (see [architecture/samples.md](architecture/samples.md) § Feature coverage matrix).
 
-**Structure:** `Samples~/SciFiSample/` — orbital-station investigation (no magic/noir faculties).
+**Structure:** Sibling repo `SciFiSample/` — orbital-station investigation (2D + UITK; numeric relationship UI; **en**).
+
+**Presentation (decided):** 2D — deck map, terminal UI, hotspot navigation. Primary showcase for 2D Presentation bridges, info-flow, inventory, locale, content script.
 
 **Deliberate differences from NoirSample:**
 - 3×4 faculty groups (not 4×6)
@@ -586,8 +593,9 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 **Deliverables:**
 - Full setup pipeline + playthrough integration test
 - Cross-pack test: both samples compile against same NSF release
+- `SampleFeatureCoverageAudit` — Noir (3D) + SciFi (2D) cover all modules per architecture matrix
 
-**Exit criteria:** Both samples green on same NSF commit; framework contains zero genre conditionals
+**Exit criteria:** Both samples green on same NSF commit; framework contains zero genre conditionals; feature coverage audit passes
 
 **Human:** None
 
@@ -612,9 +620,11 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 
 ---
 
-## Phase 18 — Human gates (deferred)
+## Phase 18 — Sample & release polish (game repos)
 
-**Only after Phases 0–17 are green.** These cannot be automated by coding agent:
+**Not NSF framework deferrals** — see [decisions-log.md](decisions-log.md) § Game-scoped polish. NSF v1.0 gates complete at **Phase 17** (automated CI).
+
+Optional human milestones on **sample repos** after Phases 0–17 are green:
 
 | Gate | Owner | Input |
 |---|---|---|
@@ -622,9 +632,8 @@ Reuse [`../invoke-unity.ps1`](../invoke-unity.ps1) wrapper (never call `Unity.ex
 | Narrative quality pass | Human | Replace agent placeholder dialogue |
 | Art/audio direction | Human | Replace procedural stubs with final assets |
 | Voice casting / TTS voices | Human | Optional for framework; required for commercial sample release |
-| Accessibility review | Human | Font sizes, colorblind, input remapping |
-| Store / distribution | Human | Asset Store, itch, GitHub releases, licensing |
-| Greywater migration | — | **Removed** — Greywater is legacy; NSF is greenfield in a separate project |
+| Accessibility playtest on samples | Human | Verify NSF-H01 hooks in sample skins |
+| Store / distribution | Human | Sample or org repos — not NSF package |
 
 ---
 

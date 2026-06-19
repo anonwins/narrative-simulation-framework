@@ -515,7 +515,7 @@ class SimulationSnapshot
 
 interface IEventHandler
 {
-    void Handle(SimEvent e, SimulationSnapshot state);
+    void Handle(SimEventBase e, SimulationSnapshot state);
 }
 ```
 

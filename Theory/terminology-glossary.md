@@ -10,7 +10,7 @@
 
 ## SSOT rules
 
-1. **Define once** in this glossary.
+1. **Define once** in this glossary (terms) or [decisions-log.md](decisions-log.md) (product/architecture forks).
 2. **Three layers** for every concept: Module → Prose → API (C#) → Content ID.
 3. **Legacy names** only in § Migration map and the appendix.
 4. New terms require a glossary entry before use in specs.
@@ -31,6 +31,8 @@
 | **Rules** | `systems/rules-` | Rule engine, gates |
 | **Content** | `systems/content-` | Store, script DSL, pipeline, locale, inventory |
 | **Presentation** | `systems/present-` | UI, audio, exploration, interaction, discovery |
+
+**Platform boundaries:** NSF does not choose 2D/3D — **samples do** (NoirSample 3D, SciFiSample 2D; combined feature coverage). Unity lifecycle: [architecture/unity-host.md](architecture/unity-host.md). Planning tiers (MVP / `[FULL]` / defer): [architecture/index.md](architecture/index.md) § Planning vocabulary.
 
 ### Module index (spec → primary service)
 
@@ -86,6 +88,9 @@
 |---|---|---|---|
 | Kernel | `ISimulationKernel` | Runtime | Tick loop orchestration |
 | Registry | `INarrativeServiceRegistry` | Runtime | Service locator / DI surface |
+| Host | `NsfSession` | Runtime | Pure C# composition root; owns registry, kernel, content — [unity-host.md](architecture/unity-host.md) |
+| Host | `NsfGameHost` | Sample | Thin `MonoBehaviour` wrapper around one `NsfSession` |
+| Presentation | `ITextToSpeechProvider` | Presentation | TTS synthesis; default impl in package — [decisions-log.md](decisions-log.md) A-01 |
 | Event bus | `IEventBus` | Simulation | Pub/sub narrative events |
 | Service | 32 × `I*Service` | per module | State mutation + queries |
 | Engine | `RuleEngine` | Rules | Concrete rule evaluator (implements `IRuleEngine`) |
@@ -233,7 +238,7 @@ Format: `{prefix}_{descriptor}` (snake_case). No setting nouns.
 | **Fact** | `IFactService`, `FactRecord` | Atomic persistent truth unit. |
 | **Info flow** | `IInfoFlowService` | Who learned what, when, from whom. |
 | **Persistence** | `IPersistenceService` | Save/load and long-term consequence. |
-| **Event** | `SimEvent`, `IEventBus` | Triggered world/narrative update. |
+| **Event** | `SimEventBase`, `IEventBus` | Triggered world/narrative update (typed hierarchy). |
 | **Time** | `ITimeService` | In-game clock and schedules. |
 | **Location** | `ILocationService` | Areas, transitions, fast travel. |
 

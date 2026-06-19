@@ -5,11 +5,14 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 - [Framework overview](README.md)
 - [Terminology glossary](terminology-glossary.md) (SSOT)
 - [Development roadmap](development-roadmap.md) (implementation phases)
+- [Decisions log](decisions-log.md) (locked architecture choices)
 - [Simulation kernel meta-guide](runtime-kernel.md)
 
-**Doc layers:** [Glossary](terminology-glossary.md) (SSOT) → [systems/](systems/) (specs) → [architecture/](architecture/) (implementation plans, after Phase A).
+- [Architecture index](architecture/index.md) (implementation blueprints)
 
-**40 logical systems · 37 spec files in [`systems/`](systems/)** (systems 1–2, 3–4 share a file each), plus [runtime-kernel.md](runtime-kernel.md).
+**Doc layers:** [Glossary](terminology-glossary.md) (SSOT) → [systems/](systems/) (specs) → [architecture/](architecture/) (implementation plans). Platform & Unity host: [architecture/unity-host.md](architecture/unity-host.md).
+
+**40 logical systems · 37 spec files in [`systems/`](systems/)** (systems 1–2, 3–4 share a file each), plus [runtime-kernel.md](runtime-kernel.md). Each system spec has a matching [architecture/](architecture/) blueprint (see [architecture/index.md](architecture/index.md)).
 
 ---
 
