@@ -55,6 +55,7 @@ Games add their own assemblies (e.g. `MyGame.Runtime`) for peer modules and adap
 
 | Doc | Purpose |
 |---|---|
+| [api-reference.md](api-reference.md) | Rough API reference (as-if-built) — all public services, types, events |
 | [development-roadmap.md](development-roadmap.md) | Implementation roadmap: zero → production (agent phases + human gates) |
 | [index.md](index.md) | Catalog of all 40 NSF systems with module tags and file links |
 | [terminology-glossary.md](terminology-glossary.md) | Canonical terms, API names, content ID prefixes (SSOT) |

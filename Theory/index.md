@@ -8,6 +8,7 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 - [Decisions log](decisions-log.md) (locked architecture choices)
 - [Feature list](feature-list.md) (what NSF’s narrative stack enables)
 - [Game extensions](architecture/game-extensions.md) (adding mechanics NSF does not ship)
+- [API reference](api-reference.md) (rough as-if-built API docs)
 - [Simulation kernel meta-guide](runtime-kernel.md)
 
 - [Architecture index](architecture/index.md) (implementation blueprints)
