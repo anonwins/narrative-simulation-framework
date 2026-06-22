@@ -6,7 +6,7 @@
 - Contracts: [contracts.md](contracts.md)
 - Persistence: [sim-persistence.md](sim-persistence.md)
 - Rules plugins: [rules-engine.md](rules-engine.md) · [decisions-log.md](../decisions-log.md) ST-05
-- Overview: [README.md](../README.md)
+- Overview: [README.md](../../README.md)
 
 ---
 
@@ -202,4 +202,4 @@ Do not promote prematurely — let the adapter pattern carry v1 until a second g
 - [unity-host.md](unity-host.md) — platform boundaries, `NsfSession`, tick driver
 - [integration.md](integration.md) — full-loop bootstrap reference
 - [samples.md](samples.md) — reference games (full NSF stack; no game-owned combat in samples v1)
-- [README.md](../README.md) — composable model overview
+- [README.md](../../README.md) — composable model overview

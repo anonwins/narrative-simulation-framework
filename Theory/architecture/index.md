@@ -178,4 +178,4 @@ See [runtime-kernel.md](runtime-kernel.md) for orchestration detail.
 - [x] Chronicle documented as read-only projection
 - [x] Headless presenter pattern in Presentation docs
 - [x] Roadmap phases 0–16 covered
-- [x] [Theory/README.md](../README.md) and [index.md](../index.md) link here
+- [x] [README.md](../../README.md) and [index.md](../index.md) link here

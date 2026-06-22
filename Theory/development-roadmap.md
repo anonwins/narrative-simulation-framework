@@ -231,7 +231,7 @@ flowchart TB
 
 ## Global conventions (every phase)
 
-**Package layout** (from [README.md](README.md)):
+**Package layout** (from [README.md](../README.md)):
 
 ```text
 Packages/NarrativeFramework/

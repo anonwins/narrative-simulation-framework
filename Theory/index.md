@@ -2,7 +2,7 @@
 
 Catalog of all **Narrative Simulation Framework (NSF)** systems.
 
-- [Framework overview](README.md)
+- [Framework overview](../README.md)
 - [Terminology glossary](terminology-glossary.md) (SSOT)
 - [Development roadmap](development-roadmap.md) (implementation phases)
 - [Decisions log](decisions-log.md) (locked architecture choices)
@@ -159,4 +159,4 @@ Catalog of all **Narrative Simulation Framework (NSF)** systems.
 
 **Game:** content (characters, dialogue, beliefs, threads), presentation skin, and **game-owned modules** (combat, crafting, genre-specific loops) integrated via [architecture/game-extensions.md](architecture/game-extensions.md).
 
-See [README.md](README.md) for the three-layer model and Unity package layout.
+See [README.md](../README.md) for the three-layer model and Unity package layout.
